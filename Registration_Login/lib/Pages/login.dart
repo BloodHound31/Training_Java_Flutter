@@ -25,9 +25,15 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[700],
       body:Container(
-        padding: EdgeInsets.only(left: 20.0, top: 50.0, right: 20.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xff293772), Color(0xFF354899), Color(0xFF415ABF)],
+          ),
+        ),
+        padding: EdgeInsets.only( top: 100.0),
         child: Column(
           children: [
             Padding(
@@ -35,16 +41,13 @@ class _LoginState extends State<Login> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: (){Navigator.pushNamed(context, '/Home');},
-                    icon: Icon(Icons.arrow_back, size: 30.0)),
                   SizedBox(width: 20),
                   Text(
-                      'Welcome Back',
+                      'Welcome\nBack',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 60,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Color(0xFFF1F2EB),
                     )
                   ),
 
@@ -52,34 +55,62 @@ class _LoginState extends State<Login> {
               ),
             ),
             SizedBox(height: 20),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  iF.InputText(textField: 'EmailId', controller: _emailController),
-                  SizedBox(height: 20),
-                  iF.InputText(textField: 'Password', controller: _passwordController, isObsurce: true),
-                  SizedBox(height: 20),
-                  TextButton(
-                    onPressed: (){
+           Expanded(
+             child: Container(
 
-                      if (_formKey.currentState!.validate()) {
-                        // Form is valid, perform your action here
-                        String email = _emailController.text;
-                        String password = _passwordController.text;
-                        user.login(email, password);
-                        print('Form is valid');
-                      } else {
-                        // Form is invalid
-                        print('Form is invalid');
-                      }
+               decoration: BoxDecoration(
+                 color: Color(0xFF8C9BDA),
+                 borderRadius: BorderRadius.only(topLeft: Radius.circular(70), topRight: Radius.circular(70)),
+               ),
+               child: SingleChildScrollView(
+                 child: Form(
+                   key: _formKey,
+                   child: Padding(
+                     padding: EdgeInsets.symmetric(horizontal: 70),
+                     child: Column(
+                       children: [
+                         SizedBox(height: 50),
+                         iF.InputText(textField: 'EmailId', controller: _emailController),
+                         SizedBox(height: 20),
+                         iF.InputText(textField: 'Password', controller: _passwordController, isObsurce: true),
+                         SizedBox(height: 20),
+                         TextButton(
+                           onPressed: (){
+                             Navigator.pushNamed(context, '/ForgotPassword');
+                           },
+                           child:Text('Forgot Password?', style: TextStyle(fontSize: 20.0, color: Color(0xFF354899)),),
+                         ),
+                         ElevatedButton(
+                           style: ButtonStyle(
+                             padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 20.0, horizontal: 70)),
+                             shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(60.0)
+                             )),
+                             backgroundColor: MaterialStateProperty.all<Color>(Color(0xff293772)),
+                           ),
+                           onPressed: (){
 
-                    },
-                    child:Text('Submit', style: TextStyle(fontSize: 20.0),),
-                  )
-                ],
-              ),
-            ),
+                             if (_formKey.currentState!.validate()) {
+                               // Form is valid, perform your action here
+                               String email = _emailController.text;
+                               String password = _passwordController.text;
+                               user.login(email, password, context);
+
+                             } else {
+                               // Form is invalid
+                               user.ShowToast("SomeThing is missing");
+                             }
+
+                           },
+                           child:Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
+                         ),
+                       ],
+                     ),
+                   ),
+                 ),
+               ),
+             ),
+           )
           ],
         ),
       ),

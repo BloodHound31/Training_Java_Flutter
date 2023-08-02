@@ -15,5 +15,6 @@ public interface UserService {
 	String addUser(UsersDto usersDto);
 	String loginUser(LoginDto loginDto);
 	List<Users> getUsers();
+	String changePassword(String emailId,String oldPassword, String newPassword);
 
 }

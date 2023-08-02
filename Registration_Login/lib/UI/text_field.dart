@@ -15,7 +15,7 @@ class InputField{
       style: TextStyle(color: Colors.black),
       obscureText: isObsurce,
       decoration: InputDecoration(
-          fillColor: Colors.grey.shade100,
+          fillColor: Colors.transparent,
           filled: true,
           hintText: textField,
           border: OutlineInputBorder(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:resgistration_login/Pages/after_login.dart';
+import 'package:resgistration_login/Pages/forgot_password.dart';
 import 'package:resgistration_login/Pages/home.dart';
 import 'package:resgistration_login/Pages/login.dart';
 import 'package:resgistration_login/Pages/register.dart';
@@ -11,7 +13,9 @@ void main() {
     routes: {
       '/Home': (context) => Home(),
       '/Register':(context)=>Registration(),
-      '/Login':(context)=>Login()
+      '/Login':(context)=>Login(),
+      '/AfterLogin':(context)=>AfterLogin(),
+      '/ForgotPassword':(context)=>ForgotPassword()
     },
   ));
 }

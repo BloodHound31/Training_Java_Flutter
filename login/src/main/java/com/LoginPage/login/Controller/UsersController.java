@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LoginPage.login.Dto.LoginDto;
@@ -37,6 +38,13 @@ public class UsersController {
 	@PostMapping("Login")
 	public String LoginUser(@RequestBody LoginDto loginDto) {
 		return userService.loginUser(loginDto);
+	}
+	
+	@PostMapping("ChangePassword/")
+	public String ChangePassword(@RequestParam(name="email") String emailId, @RequestParam(name="old") String oldPassword, @RequestParam(name="new") String newPassword) {
+		
+		return userService.changePassword(emailId, oldPassword, newPassword);
+		
 	}
 
 }
