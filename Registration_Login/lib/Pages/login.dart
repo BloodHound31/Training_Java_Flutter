@@ -45,7 +45,7 @@ class _LoginState extends State<Login> {
                   Text(
                       'Welcome\nBack',
                     style: TextStyle(
-                      fontSize: 60,
+                      fontSize: 50,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFFF1F2EB),
                     )
@@ -69,7 +69,7 @@ class _LoginState extends State<Login> {
                      padding: EdgeInsets.symmetric(horizontal: 70),
                      child: Column(
                        children: [
-                         SizedBox(height: 50),
+                         SizedBox(height: 80),
                          iF.InputText(textField: 'EmailId', controller: _emailController),
                          SizedBox(height: 20),
                          iF.InputText(textField: 'Password', controller: _passwordController, isObsurce: true),
@@ -78,11 +78,12 @@ class _LoginState extends State<Login> {
                            onPressed: (){
                              Navigator.pushNamed(context, '/ForgotPassword');
                            },
-                           child:Text('Forgot Password?', style: TextStyle(fontSize: 20.0, color: Color(0xFF354899)),),
+                           child:Text('Forgot Password?', style: TextStyle(fontSize: 18.0, color: Color(0xFF354899)),),
                          ),
                          ElevatedButton(
                            style: ButtonStyle(
-                             padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 20.0, horizontal: 70)),
+                             padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 18.0, horizontal: 70)),
+                             shadowColor: MaterialStateProperty.all<Color>(Color(0xFF6E81CE)),
                              shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
                                borderRadius: BorderRadius.circular(60.0)
                              )),

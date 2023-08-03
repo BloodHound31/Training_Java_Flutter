@@ -65,7 +65,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            iF.InputText(textField: 'emailId', controller: _emailController),
+                            iF.InputText(textField: 'EmailId', controller: _emailController),
                             SizedBox(height: 20),
                             iF.InputText(textField: 'oldPassword', controller: _oldPasswordController, isObsurce: true),
                             SizedBox(height: 20.0),
