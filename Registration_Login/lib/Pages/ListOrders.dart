@@ -1,6 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:resgistration_login/Service/product_data.dart';
 
+import'package:http/http.dart' as http;
+
+import '../UI/CustomWidgets.dart';
+
+
+
+
+const List<String> list = <String>['ACENDING', 'DECENDING'];
 class ListOrders extends StatefulWidget {
   const ListOrders({super.key});
 
@@ -8,24 +18,55 @@ class ListOrders extends StatefulWidget {
   State<ListOrders> createState() => _ListOrdersState();
 }
 
+
+
 class _ListOrdersState extends State<ListOrders> {
 
-  List<ProductData> productList = [
-    ProductData(productName: 'Cooking Oil', productPrice: 150.00, sellerDiscount: 3.00, sellerName: 'xxBrandSeller', productDiscription: 'This is Cooking oil discription', productCategories: 'Cooking essentials'),
-    ProductData(productName: 'AA Batteries', productPrice: 50.00, sellerDiscount: 2.00, sellerName: 'xyBrandSeller', productDiscription: 'This is AA Batteries discription', productCategories: 'Electronics'),
-    ProductData(productName: 'Shampoo', productPrice: 150.00, sellerDiscount: 3.00, sellerName: 'xzBrandSeller', productDiscription: 'This is Shampoo discription', productCategories: ' Hair Care'),
-    ProductData(productName: 'Laundry Detergent', productPrice: 250.00, sellerDiscount: 5.00, sellerName: 'xxBrandSeller', productDiscription: 'This is Laundry Detergent discription', productCategories: 'Household Essentials'),
-    ProductData(productName: 'Trash Bags', productPrice: 60.00, sellerDiscount: 2.00, sellerName: 'xxBrandSeller', productDiscription: 'This is Trash Bags discription', productCategories: 'Household essentials'),
-    ProductData(productName: 'Notepad', productPrice: 100.00, sellerDiscount: 10.00, sellerName: 'xxBrandSeller', productDiscription: 'This is Notepad discription', productCategories: 'Stationery'),
-    ProductData(productName: 'Ball Pen Pack', productPrice: 150.00, sellerDiscount: 2.00, sellerName: 'xxBrandSeller', productDiscription: 'This is Ball Pen Pack discription', productCategories: 'Stationery')
-  ];
+  //String dropDownValue = list.first;
+  // Function to handle the dropdown selection
+  void onSortOrderChanged(String? value) {
 
+
+      print('this: $value');
+      setState(() {
+        // Sort the foundProduct list based on the selected value
+        if (value == 'ACENDING') {
+          foundProduct.sort((a, b) => a.productName.compareTo(b.productName));
+        } else if (value == 'DECENDING') {
+          foundProduct.sort((a, b) => b.productName.compareTo(a.productName));
+        }
+      });
+
+
+  }
+
+ List<ProductData> productList = [];
+
+ Future<void> fetchProducts() async {
+
+   final response = await http.get(Uri.parse('http://10.0.2.2:8080/Products'));
+
+   if (response.statusCode == 200) {
+     final List<dynamic> data = jsonDecode(response.body);
+     List<ProductData> products = data.map((item) => ProductData.fromJson(item)).toList();
+
+
+     //products.sort((a, b) => a.productName.compareTo(b.productName));
+     setState(() {
+       productList = products;
+       foundProduct = productList;
+     });
+
+   } else {
+     print('not found');
+   }
+ }
 
   List<ProductData> foundProduct= [];
   @override
   void initState() {
     // TODO: implement initState
-    foundProduct = productList;
+    fetchProducts();
     super.initState();
 
   }
@@ -42,12 +83,24 @@ class _ListOrdersState extends State<ListOrders> {
     setState(() { foundProduct = result;});
   }
 
+  int _pageToShow = 1;
+  void changePage(int? enteredNumber){
+    setState(() {
+      _pageToShow = enteredNumber!;
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
 
+    //const List<String> list = <String>['ACENDING', 'DECENDING'];
+    //productList.sort((a,b) => a.productName.compareTo(b.productName));
+
     PageController _pageController = PageController(initialPage: 0);
-    productList.sort((a,b) => a.productName.compareTo(b.productName));
+
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -70,6 +123,7 @@ class _ListOrdersState extends State<ListOrders> {
       backgroundColor: Colors.grey[900],
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
@@ -83,14 +137,26 @@ class _ListOrdersState extends State<ListOrders> {
                 ),
               ),
             ),
+            Container(
+              margin: EdgeInsets.all(20),
+                child: DropdownButtonExample(
+                  onSaved: onSortOrderChanged,
+                ),
+            ),
+            Container(
+              margin: EdgeInsets.all(20),
+              child: DropDownButtonPage(
+                onChange: changePage,
+              ),
+            ),
             Expanded(
-              child: (foundProduct.length > 5)?PageView.builder(
+              child: (foundProduct.length > _pageToShow)?PageView.builder(
                 controller: _pageController,
-                itemCount: (foundProduct.length / 5).ceil(),
+                itemCount: (foundProduct.length / _pageToShow).ceil(),
                 itemBuilder: (context, pageIndex) {
-                  final int startIndex = pageIndex * 5;
+                  final int startIndex = pageIndex * _pageToShow;
                   final int endIndex =
-                  (startIndex + 5 < foundProduct.length) ? startIndex + 5 : foundProduct.length;
+                  (startIndex + _pageToShow < foundProduct.length) ? startIndex + _pageToShow : foundProduct.length;
 
                   final List<ProductData> productsOnPage = foundProduct.sublist(startIndex, endIndex);
                   return Container(
@@ -109,7 +175,7 @@ class _ListOrdersState extends State<ListOrders> {
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Product Discription: ${productsOnPage[index].productDiscription}'),
+                                    Text('Product Description: ${productsOnPage[index].productDiscription}'),
                                     Text('Product MRP: ${productsOnPage[index].productPrice.toString()}'),
                                     Text('Discount by seller: ${productsOnPage[index].sellerDiscount.toString()}%'),
                                     Text('Final Price: ${productsOnPage[index].finalPrice.toString()}'),
@@ -171,33 +237,36 @@ class _ListOrdersState extends State<ListOrders> {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    if (_pageController.page! > 0) {
-                      _pageController.previousPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  child: Text('Previous'),
-                ),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_pageController.page! < (productList.length / 5).ceil() - 1) {
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  child: Text('Next'),
-                ),
-              ],
+            Visibility(
+              visible: (foundProduct.length > _pageToShow),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_pageController.page! > 0) {
+                        _pageController.previousPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    child: Text('Previous'),
+                  ),
+                  SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_pageController.page! < (productList.length / 5).ceil() - 1) {
+                        _pageController.nextPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    },
+                    child: Text('Next'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -205,3 +274,5 @@ class _ListOrdersState extends State<ListOrders> {
     );
   }
 }
+
+

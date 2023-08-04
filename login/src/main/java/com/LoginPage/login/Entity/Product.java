@@ -1,6 +1,8 @@
 package com.LoginPage.login.Entity;
 
-import java.util.List;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +15,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Product Data")
+@Table(name = "ProductData")
 public class Product {
 	
 	@Id
@@ -29,12 +31,14 @@ public class Product {
 	@Column(name="Seller Discount")
 	private double sellerDiscount;
 	@Column(name="sellerName")
-	private String sellarName;
+	private String sellerName;
 	@Column(name="Product Category")
 	private String productCategories;
 	
-	@Column(name = "product_details_id")
-	private int productDetailsId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+    @JoinColumn(name = "product_details_id")
+	private ProductDetails productDetails;
 
 	public Product() {
 		super();
@@ -42,16 +46,16 @@ public class Product {
 	}
 
 	public Product(int productId, String productName, String productDiscription, double productPrice,
-			double sellerDiscount, String sellarName, String productCategories, int productDetailsId) {
+			double sellerDiscount, String sellerName, String productCategories, ProductDetails productDetails) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
 		this.productDiscription = productDiscription;
 		this.productPrice = productPrice;
 		this.sellerDiscount = sellerDiscount;
-		this.sellarName = sellarName;
+		this.sellerName = sellerName;
 		this.productCategories = productCategories;
-		this.productDetailsId = productDetailsId;
+		this.productDetails = productDetails;
 	}
 
 	public int getProductId() {
@@ -94,12 +98,12 @@ public class Product {
 		this.sellerDiscount = sellerDiscount;
 	}
 
-	public String getSellarName() {
-		return sellarName;
+	public String getSellerName() {
+		return sellerName;
 	}
 
-	public void setSellarName(String sellarName) {
-		this.sellarName = sellarName;
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
 	}
 
 	public String getProductCategories() {
@@ -110,23 +114,24 @@ public class Product {
 		this.productCategories = productCategories;
 	}
 
-	public int getProductDetailsId() {
-		return productDetailsId;
+	public ProductDetails getProductDetails() {
+		return productDetails;
 	}
 
-	public void setProductDetailsId(int productDetailsId) {
-		this.productDetailsId = productDetailsId;
+	public void setProductDetails(ProductDetails productDetails) {
+		this.productDetails = productDetails;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", productName=" + productName + ", productDiscription="
 				+ productDiscription + ", productPrice=" + productPrice + ", sellerDiscount=" + sellerDiscount
-				+ ", sellarName=" + sellarName + ", productCategories=" + productCategories + ", productDetailsId="
-				+ productDetailsId + "]";
+				+ ", sellerName=" + sellerName + ", productCategories=" + productCategories + ", productDetails="
+				+ productDetails + "]";
 	}
-
 	
+	
+
 	
 	
 	

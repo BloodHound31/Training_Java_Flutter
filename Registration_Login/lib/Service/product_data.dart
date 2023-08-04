@@ -1,13 +1,17 @@
-
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/cupertino.dart';
+import'package:http/http.dart' as http;
+import'dart:convert';
 
 class ProductData{
 
   late String productName;
+  late String productDiscription;
   late double productPrice;
   late double sellerDiscount;
   late double finalPrice;
   late String sellerName;
-  late String productDiscription;
   late String productCategories;
 
   ProductData({required this.productName, required this.productPrice, required this.sellerDiscount, required this.sellerName, required this.productDiscription, required this.productCategories}){
@@ -20,7 +24,18 @@ class ProductData{
     return finalPrice;
   }
 
+  factory ProductData.fromJson(Map<String, dynamic> json){
+    return ProductData(
+      productName: json['productName'] ?? 'NuLL',
+      productPrice: json['productPrice'] ?? 'Null' ,
+      sellerDiscount: json['sellerDiscount'] ?? 'Null',
+      sellerName: json['sellerName'] ?? 'Null',
+      productDiscription: json['productDiscription'] ?? 'Null',
+      productCategories: json['productCategories'] ?? 'Null',
+    );
+  }
+
+  }
 
 
 
-}
