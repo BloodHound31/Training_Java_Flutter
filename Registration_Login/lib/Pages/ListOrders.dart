@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:resgistration_login/Service/product_data.dart';
 
-import'package:http/http.dart' as http;
+import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
 
-import '../UI/CustomWidgets.dart';
+import '../Providers/Cart_Provider.dart';
 
-
-
-
-const List<String> list = <String>['ACENDING', 'DECENDING'];
 class ListOrders extends StatefulWidget {
   const ListOrders({super.key});
 
@@ -18,115 +13,119 @@ class ListOrders extends StatefulWidget {
   State<ListOrders> createState() => _ListOrdersState();
 }
 
-
-
 class _ListOrdersState extends State<ListOrders> {
-
-  //String dropDownValue = list.first;
-  // Function to handle the dropdown selection
+  //Sorting On Drop Down
   void onSortOrderChanged(String? value) {
-
-
-      print('this: $value');
-      setState(() {
-        // Sort the foundProduct list based on the selected value
-        if (value == 'ACENDING') {
-          foundProduct.sort((a, b) => a.productName.compareTo(b.productName));
-        } else if (value == 'DECENDING') {
-          foundProduct.sort((a, b) => b.productName.compareTo(a.productName));
-        }
-      });
-
-
+    print('this: $value');
+    setState(() {
+      // Sort the foundProduct list based on the selected value
+      if (value == 'ACENDING') {
+        foundProduct.sort((a, b) => a.productName.compareTo(b.productName));
+      } else if (value == 'DECENDING') {
+        foundProduct.sort((a, b) => b.productName.compareTo(a.productName));
+      }
+    });
   }
 
- List<ProductData> productList = [];
+  //List Of Products
+  List<ProductData> productList = [];
 
- Future<void> fetchProducts() async {
+  //Get the list of products
+  Future<void> getProducts() async {
+    await ProductData.fetchProducts();
+    setState(() {
+      productList = ProductData.products;
+      foundProduct = productList;
+    });
+  }
 
-   final response = await http.get(Uri.parse('http://10.0.2.2:8080/Products'));
-
-   if (response.statusCode == 200) {
-     final List<dynamic> data = jsonDecode(response.body);
-     List<ProductData> products = data.map((item) => ProductData.fromJson(item)).toList();
-
-
-     //products.sort((a, b) => a.productName.compareTo(b.productName));
-     setState(() {
-       productList = products;
-       foundProduct = productList;
-     });
-
-   } else {
-     print('not found');
-   }
- }
-
-  List<ProductData> foundProduct= [];
+  List<ProductData> foundProduct = [];
   @override
   void initState() {
     // TODO: implement initState
-    fetchProducts();
+    getProducts();
     super.initState();
-
   }
 
-  void SearchProduct(String enteredKeyword){
-    List<ProductData> result= [];
-    if(enteredKeyword.isEmpty){
+  //Search Products
+  void SearchProduct(String enteredKeyword) {
+    List<ProductData> result = [];
+    if (enteredKeyword.isEmpty) {
       result = productList;
-    }else{
-        result = productList.where((element) => element.productName.toLowerCase().contains(enteredKeyword.toLowerCase())
-            || element.productCategories.toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
-
+    } else {
+      result = productList
+          .where((element) =>
+              element.productName
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.productCategories
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()))
+          .toList();
     }
-    setState(() { foundProduct = result;});
+    setState(() {
+      foundProduct = result;
+    });
   }
 
-  int _pageToShow = 1;
-  void changePage(int? enteredNumber){
+  //Number of products on page
+  int _pageToShow = 12;
+  void changePage(int? enteredNumber) {
     setState(() {
       _pageToShow = enteredNumber!;
     });
   }
 
-
-
-
+  //Main Page
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartItemProvider>(context);
 
-    //const List<String> list = <String>['ACENDING', 'DECENDING'];
-    //productList.sort((a,b) => a.productName.compareTo(b.productName));
+    //List of products available
+    var list = new List<int>.generate(productList.length, (i) => i + 1);
 
     PageController _pageController = PageController(initialPage: 0);
 
     return Scaffold(
+      //Drawer
       drawer: Drawer(
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(accountName: Text('accountName'), accountEmail: Text('accountEmail')),
+            UserAccountsDrawerHeader(
+                accountName: Text('accountName'),
+                accountEmail: Text('accountEmail')),
             ListTile(
               leading: Icon(Icons.login),
               title: Text('Login'),
-              onTap: (){
+              onTap: () {
                 Navigator.pushNamed(context, '/Home');
               },
             ),
+            ListTile(
+              leading: Icon(Icons.shopping_cart_rounded),
+              title: Text('Cart'),
+              onTap: () {
+                Navigator.pushNamed(context, '/YourCart');
+              },
+            )
           ],
         ),
       ),
+      //AppBar
       appBar: AppBar(
         title: Text('My Store'),
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[900],
       body: SafeArea(
+        //Full widget
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //Search bar
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15),
               child: TextField(
                 onChanged: (value) => SearchProduct(value),
                 decoration: InputDecoration(
@@ -137,108 +136,128 @@ class _ListOrdersState extends State<ListOrders> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(20),
-                child: DropdownButtonExample(
-                  onSaved: onSortOrderChanged,
+            //Order change and number of items on page change dropdown
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: DropdownButtonExample(
+                    onSaved: onSortOrderChanged,
+                    productList: <String>['ACENDING', 'DECENDING'],
+                  ),
                 ),
+                SizedBox(
+                  width: 10,
+                ),
+                DropDownButtonPage(
+                  listTotalProduct: list,
+                  onChange: changePage,
+                ),
+              ],
             ),
-            Container(
-              margin: EdgeInsets.all(20),
-              child: DropDownButtonPage(
-                onChange: changePage,
-              ),
-            ),
+            //PageView for making number of items appear no page
             Expanded(
-              child: (foundProduct.length > _pageToShow)?PageView.builder(
-                controller: _pageController,
-                itemCount: (foundProduct.length / _pageToShow).ceil(),
-                itemBuilder: (context, pageIndex) {
-                  final int startIndex = pageIndex * _pageToShow;
-                  final int endIndex =
-                  (startIndex + _pageToShow < foundProduct.length) ? startIndex + _pageToShow : foundProduct.length;
+                child: PageView.builder(
+              controller: _pageController,
+              itemCount: (foundProduct.length / _pageToShow).ceil(),
+              itemBuilder: (context, pageIndex) {
+                final int startIndex = pageIndex * _pageToShow;
+                final int endIndex =
+                    (startIndex + _pageToShow < foundProduct.length)
+                        ? startIndex + _pageToShow
+                        : foundProduct.length;
 
-                  final List<ProductData> productsOnPage = foundProduct.sublist(startIndex, endIndex);
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: ListView.builder(
-                      itemCount: productsOnPage.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-                          child: Card(
-                            color: Colors.grey[200],
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                title: Text(productsOnPage[index].productName),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Product Description: ${productsOnPage[index].productDiscription}'),
-                                    Text('Product MRP: ${productsOnPage[index].productPrice.toString()}'),
-                                    Text('Discount by seller: ${productsOnPage[index].sellerDiscount.toString()}%'),
-                                    Text('Final Price: ${productsOnPage[index].finalPrice.toString()}'),
-                                    Text('Seller: ${productsOnPage[index].sellerName}'),
-                                    Text('Category: ${productsOnPage[index].productCategories}'),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        ElevatedButton(onPressed: (){}, child: Text('Edit')),
-                                        SizedBox(width: 10),
-                                        ElevatedButton(onPressed: (){}, child: Text('Details')),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                final List<ProductData> productsOnPage =
+                    foundProduct.sublist(startIndex, endIndex);
+                //list view
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: ListView.builder(
+                    itemCount: productsOnPage.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 1.0, horizontal: 4.0),
+                        child: Card(
+                          color: Colors.grey[200],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(productsOnPage[index].productName),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'Product Description: ${productsOnPage[index].productDiscription}'),
+                                  Text(
+                                      'Product MRP: ${productsOnPage[index].productPrice.toString()}'),
+                                  Text(
+                                      'Discount by seller: ${productsOnPage[index].sellerDiscount.toString()}%'),
+                                  Text(
+                                      'Final Price: ${productsOnPage[index].finalPrice.toString()}'),
+                                  Text(
+                                      'Seller: ${productsOnPage[index].sellerName}'),
+                                  Text(
+                                      'Category: ${productsOnPage[index].productCategories}'),
+                                  Text(
+                                      'Available Stocks: ${productsOnPage[index].availableStock}'),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            cart.addItems(
+                                                product:
+                                                    productsOnPage[index],
+                                                productPrice: productsOnPage[index]
+                                                    .finalPrice);
+                                            productsOnPage[index]
+                                                .DecreaseStocks();
+                                          },
+                                          icon: Icon(
+                                            Icons.add,
+                                            size: 35,
+                                            color: Colors.blue,
+                                          )),
+                                      Text(cart.items.containsKey(
+                                              productsOnPage[index].productName)
+                                          ? cart
+                                              .items[productsOnPage[index]
+                                                  .productName]!
+                                              .productQuantity
+                                              .toString()
+                                          : '0'),
+                                      IconButton(
+                                          onPressed: () {
+                                            cart.subtractItems(
+                                                product: productsOnPage[index],
+                                                price: productsOnPage[index]
+                                                    .finalPrice);
+                                            productsOnPage[index]
+                                                .IncreaseStocks();
+                                          },
+                                          icon: Icon(
+                                            Icons.remove_circle,
+                                            size: 35,
+                                            color: Colors.blue,
+                                          )),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              ):
-              ListView.builder(
-                itemCount: foundProduct.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-                    child: Card(
-                      color: Colors.grey[200],
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text(foundProduct[index].productName),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Product Discription: ${foundProduct[index].productDiscription}'),
-                              Text('Product MRP: ${foundProduct[index].productPrice.toString()}'),
-                              Text('Discount by seller: ${foundProduct[index].sellerDiscount.toString()}%'),
-                              Text('Final Price: ${foundProduct[index].finalPrice.toString()}'),
-                              Text('Seller: ${foundProduct[index].sellerName}'),
-                              Text('Category: ${foundProduct[index].productCategories}'),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ElevatedButton(onPressed: (){}, child: Text('Edit')),
-                                  SizedBox(width: 10),
-                                  ElevatedButton(onPressed: (){}, child: Text('Details')),
-                                ],
-                              )
-                            ],
-                          ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  ),
+                );
+              },
+            )),
+            //Visisblity
             Visibility(
               visible: (foundProduct.length > _pageToShow),
+              //Next and previus button
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -256,7 +275,8 @@ class _ListOrdersState extends State<ListOrders> {
                   SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (_pageController.page! < (productList.length / 5).ceil() - 1) {
+                      if (_pageController.page! <
+                          (productList.length / _pageToShow).ceil() - 1) {
                         _pageController.nextPage(
                           duration: Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
@@ -274,5 +294,3 @@ class _ListOrdersState extends State<ListOrders> {
     );
   }
 }
-
-

@@ -36,17 +36,23 @@ public class ProductServiceImpl implements ProductService{
 		return productRepo.save(product);
 	}
 
-	@Override
-	public Product getProductByName(String productName) {
-		// TODO Auto-generated method stub
-		return productRepo.findByProductName(productName);
-	}
+	/*
+	 * @Override public Product getProductByName(String productName) { // TODO
+	 * Auto-generated method stub return productRepo.findByProductName(productName);
+	 * }
+	 */
 
-	@Override
-	public Product updateProduct(String productName, Product updatedProduct) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/*
+	 * @Override public Product updateProduct(String productName, Product
+	 * updatedProduct) { // TODO Auto-generated method stub Product tempProduct =
+	 * productRepo.findByProductName(productName); if(tempProduct != null) {
+	 * 
+	 * tempProduct.setProductName(updatedProduct.getProductName());
+	 * tempProduct.setProductDiscription(updatedProduct.getProductDiscription());
+	 * }else { tempProduct = null; }
+	 * 
+	 * return tempProduct; }
+	 */
 	
 	
 

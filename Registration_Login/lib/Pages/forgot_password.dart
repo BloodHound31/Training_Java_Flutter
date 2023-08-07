@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:resgistration_login/UI/text_field.dart';
+import 'package:resgistration_login/CustomWidegts/custom_text_field.dart';
 
 import '../Service/user_data.dart';
 
