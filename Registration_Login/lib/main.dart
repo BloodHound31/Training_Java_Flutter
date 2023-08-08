@@ -10,12 +10,14 @@ import 'package:resgistration_login/Pages/home.dart';
 import 'package:resgistration_login/Pages/login.dart';
 import 'package:resgistration_login/Pages/register.dart';
 import 'package:resgistration_login/Providers/Cart_Provider.dart';
+import 'package:resgistration_login/Providers/Product_Provider.dart';
 
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (BuildContext context) => CartItemProvider()),
+      ChangeNotifierProvider(create: (BuildContext context) => ProductProvider()),
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,

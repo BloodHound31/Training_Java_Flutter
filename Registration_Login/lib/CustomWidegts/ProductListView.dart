@@ -1,0 +1,135 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:resgistration_login/Providers/Cart_Provider.dart';
+import 'package:resgistration_login/Providers/Product_Provider.dart';
+import 'package:resgistration_login/Service/product_data.dart';
+
+
+
+class ProductListView extends StatefulWidget {
+  const ProductListView({super.key});
+
+  @override
+  State<ProductListView> createState() => _ProductListViewState();
+}
+
+class _ProductListViewState extends State<ProductListView> {
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    final cart = Provider.of<CartItemProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context);
+
+
+
+    PageController _pageController = PageController(initialPage: 0);
+
+    return PageView.builder(
+      controller: _pageController,
+      itemCount: (productProvider.productFound.length / productProvider.productsToShow).ceil(),
+      itemBuilder: (context, pageIndex) {
+        final int startIndex = pageIndex * productProvider.productsToShow;
+        final int endIndex =
+        (startIndex + productProvider.productsToShow < productProvider.productFound.length)
+            ? startIndex + productProvider.productsToShow
+            : productProvider.productFound.length;
+
+        final List<ProductData> productsOnPage =
+        productProvider.productFound.sublist(startIndex, endIndex);
+        //list view
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: ListView.builder(
+            itemCount: productsOnPage.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  color: Color(0xFFEEEEEE),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text(productsOnPage[index].productName,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Product Description: ${productsOnPage[index].productDiscription}'),
+                          Text('Product MRP: ${productsOnPage[index].productPrice.toString()}'),
+                          Text('Discount by seller: ${productsOnPage[index].sellerDiscount.toString()}%'),
+                          Text('Final Price: ${productsOnPage[index].finalPrice.toString()}'),
+                          Text('Seller: ${productsOnPage[index].sellerName}'),
+                          Text('Category: ${productsOnPage[index].productCategories}'),
+                          Text('Available Stocks: ${productsOnPage[index].availableStock}'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CircleAvatar(
+                                radius: 18,
+                                backgroundColor: Color(0xFF293771),
+                                child: IconButton(
+                                    onPressed: () {
+                                      cart.addItems(
+                                          product: productsOnPage[index],
+                                          productPrice: productsOnPage[index].productPrice,
+                                          discountPercent: productsOnPage[index].sellerDiscount);
+                                      productsOnPage[index].DecreaseStocks();
+                                    },
+                                    icon: Icon(
+                                      Icons.add,
+                                      size: 18,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                cart.items.containsKey(
+                                    productsOnPage[index]
+                                        .productName)
+                                    ? cart
+                                    .items[productsOnPage[index]
+                                    .productName]!
+                                    .productQuantity
+                                    .toString()
+                                    : '0',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CircleAvatar(
+                                radius: 18,
+                                backgroundColor: Color(0xFF293771),
+                                child: IconButton(
+                                    onPressed: () {
+                                      cart.subtractItems(product: productsOnPage[index],
+                                          price: productsOnPage[index].productPrice);
+                                      productsOnPage[index].IncreaseStocks();
+                                    },
+                                    icon: Icon(
+                                      Icons.remove,
+                                      size: 18,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
