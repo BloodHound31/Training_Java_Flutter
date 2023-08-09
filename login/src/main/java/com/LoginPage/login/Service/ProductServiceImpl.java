@@ -1,10 +1,12 @@
 package com.LoginPage.login.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.LoginPage.login.Dto.StocksDto;
 import com.LoginPage.login.Entity.Product;
 import com.LoginPage.login.Entity.ProductDetails;
 import com.LoginPage.login.Repository.ProductDetailsRepository;
@@ -36,23 +38,30 @@ public class ProductServiceImpl implements ProductService{
 		return productRepo.save(product);
 	}
 
-	/*
-	 * @Override public Product getProductByName(String productName) { // TODO
-	 * Auto-generated method stub return productRepo.findByProductName(productName);
-	 * }
-	 */
+	@Override
+	public List<Product> changeAvailableStocks(List<StocksDto> stocksDtoList) {
+		
+		List<Product> updatedProducts = new ArrayList<>();
+		
+		for(StocksDto stocksDto: stocksDtoList) {
+			Product currentProduct = productRepo.findByProductName(stocksDto.getProductName());
+			if(currentProduct != null){
+				ProductDetails currentProductDetails = currentProduct.getProductDetails();
+				if(currentProductDetails != null) {
+					currentProductDetails.setAvailableStock(stocksDto.getAvailableStocks());
+					productDetailsRepo.save(currentProductDetails);
+					updatedProducts.add(currentProduct);
+				}
+				
+			}
+		}
+		
+		return updatedProducts;
+	}
 
-	/*
-	 * @Override public Product updateProduct(String productName, Product
-	 * updatedProduct) { // TODO Auto-generated method stub Product tempProduct =
-	 * productRepo.findByProductName(productName); if(tempProduct != null) {
-	 * 
-	 * tempProduct.setProductName(updatedProduct.getProductName());
-	 * tempProduct.setProductDiscription(updatedProduct.getProductDiscription());
-	 * }else { tempProduct = null; }
-	 * 
-	 * return tempProduct; }
-	 */
+	
+	
+	
 	
 	
 

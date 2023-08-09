@@ -147,7 +147,8 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                   Navigator.pushNamed(context, '/Checkout',
                                       arguments: {
                                         'totalDiscount': cart.totalDiscount,
-                                        'totalPrice': cart.TotalPrice
+                                        'totalPrice': cart.TotalPrice,
+                                        'cartItems': cart.items
                                       });
                                 } else {
                                   //Throw a toast

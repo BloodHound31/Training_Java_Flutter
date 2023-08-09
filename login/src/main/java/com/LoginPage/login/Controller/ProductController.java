@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.LoginPage.login.Dto.StocksDto;
 import com.LoginPage.login.Entity.Product;
 import com.LoginPage.login.Service.ProductService;
 
@@ -31,5 +34,11 @@ public class ProductController {
 	@PostMapping("Products")
 	public Product addProduct(@RequestBody Product product) {
 		return productService.addProduct(product);
+	}
+	
+	@PatchMapping("Products")
+	public List<Product> changeAvailableStocks(@RequestBody List<StocksDto> stocksDtoList) {
+		
+		return productService.changeAvailableStocks(stocksDtoList);
 	}
 }

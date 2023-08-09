@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -13,7 +11,7 @@ class ProductData {
   late String sellerName;
   late String productCategories;
   late int availableStock;
-  int stocks;
+  int initialStocks;
 
   static List<ProductData> products = [];
 
@@ -23,10 +21,10 @@ class ProductData {
       required this.sellerDiscount,
       required this.sellerName,
       required this.productDiscription,
-        required this.stocks,
+        required this.initialStocks,
       required this.productCategories,
       required this.availableStock}){
-    stocks = availableStock;
+    initialStocks = availableStock;
     finalPrice = calculateFinalPrice(productPrice, sellerDiscount);
   }
 
@@ -45,7 +43,7 @@ class ProductData {
         productDiscription: json['productDiscription'] ?? 'Null',
         productCategories: json['productCategories'] ?? 'Null',
         availableStock: json['productDetails']['availableStock'] as int ?? 0,
-        stocks: json['productDetails']['availableStock'] as int ?? 0,
+        initialStocks: json['productDetails']['availableStock'] as int ?? 0,
     );
   }
 
@@ -63,7 +61,7 @@ class ProductData {
 
 
   void IncreaseStocks(){
-    if(availableStock < stocks) {
+    if(availableStock < initialStocks) {
       availableStock += 1;
     }
   }
@@ -72,5 +70,16 @@ class ProductData {
     if(availableStock > 0){
       availableStock -= 1;
     }
+  }
+
+  static Future<void> changeAvailableProducts(String productName, int newAvailableStock) async{
+    final response = await http.patch(Uri.parse('http://10.0.2.2:8080/Products'), headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'productName': productName,
+          'availableStocks': newAvailableStock,
+        }),);
+
+
+
   }
 }

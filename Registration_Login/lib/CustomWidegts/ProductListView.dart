@@ -22,9 +22,6 @@ class _ProductListViewState extends State<ProductListView> {
     final cart = Provider.of<CartItemProvider>(context);
     final productProvider = Provider.of<ProductProvider>(context);
 
-
-    print('Object 1');
-
     PageController _pageController = PageController(initialPage: 0);
 
     return Column(

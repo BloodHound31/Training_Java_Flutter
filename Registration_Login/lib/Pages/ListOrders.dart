@@ -19,14 +19,11 @@ class _ListOrdersState extends State<ListOrders> {
   //Main Page
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<CartItemProvider>(context);
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
 
-    var list = new List<int>.generate(
-        productProvider.productList.length, (i) => i + 1);
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
-    PageController _pageController = PageController(initialPage: 0);
+    var list = new List<int>.generate(productProvider.productList.length, (i) => i + 1);
+
     print('product built');
 
     return Scaffold(
@@ -115,7 +112,9 @@ class _ListOrdersState extends State<ListOrders> {
             ),
             Expanded(
               flex: 5,
-              child: ProductListView(),
+              child: Consumer<ProductProvider>(builder: (context, value, child){
+                return ProductListView();
+              })
             ),
           ],
         ),

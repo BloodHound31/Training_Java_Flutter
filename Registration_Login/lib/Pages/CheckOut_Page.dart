@@ -196,7 +196,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           ),
                           SizedBox(height: 10),
 
-
                           Container(
                             margin: EdgeInsets.symmetric(vertical: 5),
                             decoration: BoxDecoration(
@@ -206,48 +205,78 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Bill Details', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                  Text('Bill Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                                   SizedBox(height: 10,),
-                                  Text('MRP Amount: $totalPrice'),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Title', style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Text('Amount', style: TextStyle(fontWeight: FontWeight.bold),),
+                                    ],
+                                  ),
                                   Divider(),
-                                  Text('Discount: $discountPrice'),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('MRP Amount:'),
+                                      Text('$totalPrice'),
+                                    ],
+                                  ),
                                   Divider(),
-                                  Text('Total Amount: $finalPrice', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Discount:'),
+                                      Text('$discountPrice'),
+                                    ],
+                                  ),
+                                  Divider(),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Total Amount:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                                      Text('$finalPrice', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 50,),
+                          SizedBox(height: 30,),
 
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 18.0, horizontal: 70)),
-                              shadowColor: MaterialStateProperty.all<Color>(Color(0xFF6E81CE)),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(60.0)
-                              )),
-                              backgroundColor: MaterialStateProperty.all<Color>(Color(0xff293772)),
-                            ),
-                            onPressed: (){
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 18.0, horizontal: 70)),
+                                    shadowColor: MaterialStateProperty.all<Color>(Color(0xFF6E81CE)),
+                                    shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60.0)
+                                    )),
+                                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xff293772)),
+                                  ),
+                                  onPressed: (){
+                                    if (_formKey.currentState!.validate()) {
+                                      // Form is valid, perform your action here
+                                      String userName = _yourNameController.text;
+                                      String userAddress = _addressController.text;
+                                      String dropDown = selectedPaymentMethod.toString();
+                                      postData(userName, userAddress, dropDown);
+                                      cart.clearCart();
 
+                                    } else {
+                                      // Form is invalid
+                                      print('Something went wrong');
+                                    }
 
-                              if (_formKey.currentState!.validate()) {
-                                // Form is valid, perform your action here
-                                String userName = _yourNameController.text;
-                                String userAddress = _addressController.text;
-                                String dropDown = selectedPaymentMethod.toString();
-                                postData(userName, userAddress, dropDown);
-                                cart.clearCart();
-
-                              } else {
-                                // Form is invalid
-                                print('Something went wrong');
-                              }
-
-                            },
-                            child:Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
+                                  },
+                                  child:Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

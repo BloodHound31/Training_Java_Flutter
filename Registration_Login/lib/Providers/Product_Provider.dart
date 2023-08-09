@@ -63,6 +63,10 @@ class ProductProvider with ChangeNotifier{
     notifyListeners();
   }
 
+  void ChangeAvailableStocks(String productName, int availableStocks){
+    ProductData.changeAvailableProducts(productName, availableStocks);
+    notifyListeners();
+  }
 
 
 }
