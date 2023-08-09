@@ -5,7 +5,6 @@ import 'package:resgistration_login/Providers/Product_Provider.dart';
 
 //For Order
 class DropdownButtonExample extends StatefulWidget {
-  //final void Function(String? value) onSaved;
   final List<String> productList;
   const DropdownButtonExample(
       {required this.productList, Key? key})
@@ -22,26 +21,24 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
   void initState() {
     super.initState();
     dropDownValue = widget.productList.first;
-    // Initialize the local dropdownValue with the value from widget
   }
 
   @override
   Widget build(BuildContext context) {
-    //dropDownValue = widget.list.first;
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      //margin: EdgeInsets.symmetric(vertical: 5),
+      //padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: Color(0xFF8B9AD8),
         borderRadius: BorderRadius.circular(50),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          hint: Text('Select Order'),
+          hint: Text('A-Z'),
           value: dropDownValue,
-          icon: const Icon(Icons.arrow_downward, size: 18, color: Color(0xFF293771)),
+          icon: const Icon(Icons.arrow_drop_down_outlined, size: 18, color: Color(0xFF293771)),
           elevation: 14,
           style: const TextStyle(color: Color(0xFF293771), fontSize: 14, fontWeight: FontWeight.bold),
           dropdownColor: Color(0xFF8B9AD8),
@@ -82,7 +79,7 @@ class _DropDownButtonPageState extends State<DropDownButtonPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    dropDownValue = widget.listTotalProduct.last;
+    dropDownValue = widget.listTotalProduct.isEmpty ? 12 : widget.listTotalProduct.last;
 
   }
 
@@ -92,8 +89,6 @@ class _DropDownButtonPageState extends State<DropDownButtonPage> {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: Color(0xFF8B9AD8),
         borderRadius: BorderRadius.circular(50),
@@ -101,11 +96,11 @@ class _DropDownButtonPageState extends State<DropDownButtonPage> {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<int>(
           hint: Text(
-            'Select No.Products',
-            style: TextStyle(color: Color(0xFF293771), fontSize: 14, fontWeight: FontWeight.bold),
+            widget.listTotalProduct.isEmpty ? '1' : widget.listTotalProduct.length.toString(),
+            style: TextStyle(color: Color(0xFF293771), fontSize: 12, fontWeight: FontWeight.bold),
           ),
           value: dropDownValue,
-          icon: const Icon(Icons.arrow_downward, size: 18, color: Color(0xFF293771)),
+          icon: const Icon(Icons.arrow_drop_down_outlined, size: 18, color: Color(0xFF293771)),
           elevation: 14,
           style: const TextStyle(color: Color(0xFF293771), fontSize: 14, fontWeight: FontWeight.bold),
           dropdownColor: Color(0xFF8B9AD8),
@@ -155,7 +150,7 @@ class _PaymentDropDownState extends State<PaymentDropDown> {
       padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: Color(0xFF293771),
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(

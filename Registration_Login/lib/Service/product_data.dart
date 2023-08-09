@@ -39,13 +39,13 @@ class ProductData {
   factory ProductData.fromJson(Map<String, dynamic> json) {
     return ProductData(
         productName: json['productName'] ?? 'NuLL',
-        productPrice: json['productPrice'] ?? 'Null',
-        sellerDiscount: json['sellerDiscount'] ?? 'Null',
+        productPrice: json['productPrice'] as double ?? 0.0,
+        sellerDiscount: json['sellerDiscount'] as double ?? 0.0,
         sellerName: json['sellerName'] ?? 'Null',
         productDiscription: json['productDiscription'] ?? 'Null',
         productCategories: json['productCategories'] ?? 'Null',
-        availableStock: json['productDetails']['availableStock'] as int? ?? 0,
-        stocks: json['productDetails']['availableStock'] as int? ?? 0,
+        availableStock: json['productDetails']['availableStock'] as int ?? 0,
+        stocks: json['productDetails']['availableStock'] as int ?? 0,
     );
   }
 

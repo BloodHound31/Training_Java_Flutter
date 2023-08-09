@@ -9,10 +9,7 @@ class CartItemsPage extends StatefulWidget {
   State<CartItemsPage> createState() => _CartItemsPageState();
 }
 
-
-
 class _CartItemsPageState extends State<CartItemsPage> {
-
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartItemProvider>(context);
@@ -39,24 +36,30 @@ class _CartItemsPageState extends State<CartItemsPage> {
                   final product = cartItem.product;
 
                   return Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                     color: Color(0xFF8C9BDA),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: ListTile(
-                        title: Text(cart.items.values.toList()[index].productName,  style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),),
+                        title: Text(
+                          cart.items.values.toList()[index].productName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Price ${cart.items.values.toList()[index].productPrice}',),
-                            SizedBox(height: 5),
-                            Text('discount: ${cart.items.values.toList()[index].discountPercent}%'),
+                            Text(
+                              'Price ${cart.items.values.toList()[index].productPrice}',
+                            ),
                             SizedBox(height: 5),
                             Text(
-                                'Quantity: ${cart.items.values.toList()[index]
-                                    .productQuantity}'),
+                                'discount: ${cart.items.values.toList()[index].discountPercent}%'),
+                            SizedBox(height: 5),
+                            Text(
+                                'Quantity: ${cart.items.values.toList()[index].productQuantity}'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -71,7 +74,10 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                                 .product);
                                         product.DecreaseStocks();
                                       },
-                                      icon: Icon(Icons.add, size: 18,)),
+                                      icon: Icon(
+                                        Icons.add,
+                                        size: 18,
+                                      )),
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -86,7 +92,10 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                                 .product);
                                         product.IncreaseStocks();
                                       },
-                                      icon: Icon(Icons.remove, size: 18,)),
+                                      icon: Icon(
+                                        Icons.remove,
+                                        size: 18,
+                                      )),
                                   backgroundColor: Color(0xFF293771),
                                 ),
                               ],
@@ -106,7 +115,8 @@ class _CartItemsPageState extends State<CartItemsPage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     color: Color(0xFF8B9AD8),
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 10),
@@ -123,26 +133,39 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                   color: Colors.black,
                                 ),
                               )),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             width: 1000,
                             height: 80,
                             padding: EdgeInsets.all(10),
                             child: ElevatedButton.icon(
-                              onPressed: (){
+                              onPressed: () {
                                 // cart.items.clear();
-                                if(cart.items.isNotEmpty){
-                                  Navigator.pushNamed(context, '/Checkout',  arguments: {'totalDiscount':cart.totalDiscount,'totalPrice': cart.TotalPrice});
-                                }else{
+                                if (cart.items.isNotEmpty) {
+                                  Navigator.pushNamed(context, '/Checkout',
+                                      arguments: {
+                                        'totalDiscount': cart.totalDiscount,
+                                        'totalPrice': cart.TotalPrice
+                                      });
+                                } else {
                                   //Throw a toast
                                   print('error: no item found');
                                 }
                               },
                               icon: Icon(Icons.check_outlined),
-                              label: Text('Proceed To Check Out', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                              label: Text(
+                                'Proceed To Check Out',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF293771)),
-                                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10)),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color(0xFF293771)),
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    EdgeInsets.all(10)),
                               ),
                             ),
                           ),
@@ -159,4 +182,3 @@ class _CartItemsPageState extends State<CartItemsPage> {
     );
   }
 }
-

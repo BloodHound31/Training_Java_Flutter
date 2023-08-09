@@ -27,11 +27,10 @@ class ProductProvider with ChangeNotifier{
   }
 
   void onSortOrderChanged(String? value) {
-    //print('this: $value');
-    // Sort the foundProduct list based on the selected value
-    if (value == 'ACENDING') {
+
+    if (value == 'A-Z') {
       _productFound.sort((a, b) => a.productName.compareTo(b.productName));
-    } else if (value == 'DECENDING') {
+    } else if (value == 'Z-A') {
       _productFound.sort((a, b) => b.productName.compareTo(a.productName));
     }
     notifyListeners();

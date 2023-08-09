@@ -181,14 +181,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: PaymentDropDown(
-                              dropDownValue: dropDownValue,
-                              paymentList: list,
-                              onSaved: onSaved,
-                              onDropDownChanged: handlePaymentMethodChange,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: PaymentDropDown(
+                                  dropDownValue: dropDownValue,
+                                  paymentList: list,
+                                  onSaved: onSaved,
+                                  onDropDownChanged: handlePaymentMethodChange,
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 10),
 
@@ -202,15 +206,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text('Bill', style: TextStyle(fontSize: 16),),
+                                  Text('Bill Details', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                                   SizedBox(height: 10,),
                                   Text('MRP Amount: $totalPrice'),
                                   Divider(),
                                   Text('Discount: $discountPrice'),
                                   Divider(),
-                                  Text('Total Amount: $finalPrice'),
+                                  Text('Total Amount: $finalPrice', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),
