@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,9 @@ import 'package:resgistration_login/CustomWidegts/custom_text_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
 import 'package:resgistration_login/Providers/Cart_Provider.dart';
+import 'package:resgistration_login/Service/Order_Data.dart';
+import 'package:resgistration_login/Service/product_data.dart';
+import 'package:resgistration_login/Service/user_data.dart';
 
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({super.key});
@@ -15,32 +20,10 @@ class CheckOutPage extends StatefulWidget {
 
 
 
-String url = 'https://jsonplaceholder.typicode.com/posts';
 
 
-void postData(String userName, String userAddress, String paymentOption) async{
-  if(userName.isNotEmpty && userAddress.isNotEmpty && paymentOption.isNotEmpty){
-    try{
-      final response = await http.post(Uri.parse(url), body: {
-        'userName': userName,
-        'userAddress': userAddress,
-        'paymentOption': paymentOption,
-      });
 
-      if (response.statusCode == 201) {
-        // Print the response body
-        print('Response Body: ${response.body}');
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-      }
 
-    }catch(e){
-
-    }
-  }else{
-    print('fill details');
-  }
-}
 
 
 
@@ -126,6 +109,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       key: _formKey,
                       child: Column(
                         children: [
+                          Align(
+                              alignment: Alignment.centerLeft ,
+                              child: Text(
+                                'Customer Details',
+                                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)),
                           Container(
                             decoration: BoxDecoration(
                               color: Color(0xFF293771),
@@ -134,7 +122,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             child: ExpansionTile(
                               initiallyExpanded: true,
                               title: Text('Details', style: TextStyle(color: Colors.white),),
-                              subtitle: Text('User details here', style: TextStyle(color: Colors.grey.shade200),),
+                              subtitle: Text('Customer details here', style: TextStyle(color: Colors.grey.shade200),),
                               children: [
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -180,7 +168,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 15),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                              child: Text('Payment Method',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white
+                              ),
+                              ),
+                          ),
+                          SizedBox(height: 5,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -207,7 +206,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Bill Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  Text('Bill Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), ),
                                   SizedBox(height: 10,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,8 +263,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                       String userName = _yourNameController.text;
                                       String userAddress = _addressController.text;
                                       String dropDown = selectedPaymentMethod.toString();
-                                      postData(userName, userAddress, dropDown);
+                                      UserData.UserDetailsPost(userName, userAddress, dropDown);
+                                      ProductData.changeAvailableProducts(cart.items.values.toList());
+                                      OrderData.AddBill(userName, totalPrice, discountPrice, finalPrice);
                                       cart.clearCart();
+                                      Navigator.pushNamed(context, '/OrderList');
 
                                     } else {
                                       // Form is invalid

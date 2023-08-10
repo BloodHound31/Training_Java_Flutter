@@ -2,6 +2,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:resgistration_login/Providers/Cart_Provider.dart';
+
 class ProductData {
   late String productName;
   late String productDiscription;
@@ -72,12 +74,35 @@ class ProductData {
     }
   }
 
-  static Future<void> changeAvailableProducts(String productName, int newAvailableStock) async{
-    final response = await http.patch(Uri.parse('http://10.0.2.2:8080/Products'), headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'productName': productName,
-          'availableStocks': newAvailableStock,
-        }),);
+  static Future<void> changeAvailableProducts(List<CartItems> cartItems) async{
+
+    try{
+      List<Map<String, dynamic>> stocksData = [];
+
+      for (var cartItem in cartItems) {
+        stocksData.add({
+          'productName': cartItem.product.productName,
+          'availableStocks': cartItem.product.initialStocks - cartItem.productQuantity,
+        });
+        cartItem.product.initialStocks = cartItem.product.availableStock;
+      }
+
+      final response = await http.patch(Uri.parse('http://10.0.2.2:8080/Products'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(stocksData));
+
+          if (response.statusCode == 200) {
+        print('Stocks updated successfully');
+        // Other actions you want to perform after successful update
+      } else {
+    print('Request failed with status: ${response.statusCode}');
+
+
+    }
+
+    }catch(e){
+      print('Error: $e');
+    }
 
 
 

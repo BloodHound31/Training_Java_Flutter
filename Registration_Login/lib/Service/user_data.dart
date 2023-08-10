@@ -111,5 +111,36 @@ class UserData{
   }//Change Password
 
 
+  static Future<void> UserDetailsPost(String userName, String userAddress, String paymentOption) async{
+
+    String url = 'http://10.0.2.2:8080/UserDetails';
+    if(userName.isNotEmpty && userAddress.isNotEmpty && paymentOption.isNotEmpty){
+      try{
+        final response = await http.post(Uri.parse(url),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode({
+              'userName': userName,
+              'userAddress': userAddress,
+              'paymentOption': paymentOption,
+            }));
+
+        if (response.statusCode == 200) {
+          // Print the response body
+          print('Response Body: ${response.body}');
+        } else {
+          print('Request failed with status: ${response.statusCode}');
+        }
+
+      }catch(e){
+
+        print('error: $e');
+      }
+    }else{
+      print('fill details');
+    }
+  }
+
 
 }
