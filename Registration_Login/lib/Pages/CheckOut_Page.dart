@@ -114,15 +114,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               child: Text(
                                 'Customer Details',
                                 style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)),
+                          SizedBox(height: 10,),
                           Container(
                             decoration: BoxDecoration(
                               color: Color(0xFF293771),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: ExpansionTile(
                               initiallyExpanded: true,
                               title: Text('Details', style: TextStyle(color: Colors.white),),
-                              subtitle: Text('Customer details here', style: TextStyle(color: Colors.grey.shade200),),
                               children: [
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -265,9 +265,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                       String dropDown = selectedPaymentMethod.toString();
                                       UserData.UserDetailsPost(userName, userAddress, dropDown);
                                       ProductData.changeAvailableProducts(cart.items.values.toList());
-                                      OrderData.AddBill(userName, totalPrice, discountPrice, finalPrice);
+                                      Future.delayed(Duration(seconds: 5), (){
+                                        OrderData.AddBill(userName, totalPrice, discountPrice, finalPrice);
+                                      });
                                       cart.clearCart();
-                                      Navigator.pushNamed(context, '/OrderList');
+                                      Navigator.pushNamed(context, '/ProductList');
 
                                     } else {
                                       // Form is invalid

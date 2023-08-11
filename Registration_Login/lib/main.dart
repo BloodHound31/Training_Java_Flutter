@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resgistration_login/Pages/Cart_Items.dart';
 import 'package:resgistration_login/Pages/CheckOut_Page.dart';
-import 'package:resgistration_login/Pages/ListOrders.dart';
+import 'package:resgistration_login/Pages/ProductList.dart';
 import 'package:resgistration_login/Pages/after_login.dart';
 import 'package:resgistration_login/Pages/forgot_password.dart';
 import 'package:resgistration_login/Pages/home.dart';
@@ -21,9 +21,9 @@ void main() {
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/OrderList',
+      initialRoute: '/ProductList',
       routes: {
-        '/OrderList': (context) => ListOrders(),
+        '/ProductList': (context) => ProductList(),
         '/Home': (context) => Home(),
         '/Register':(context)=>Registration(),
         '/Login':(context)=>Login(),

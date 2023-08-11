@@ -7,14 +7,14 @@ import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
 import '../Providers/Cart_Provider.dart';
 import 'package:resgistration_login/CustomWidegts/ProductListView.dart';
 
-class ListOrders extends StatefulWidget {
-  const ListOrders({super.key});
+class ProductList extends StatefulWidget {
+  const ProductList({super.key});
 
   @override
-  State<ListOrders> createState() => _ListOrdersState();
+  State<ProductList> createState() => _ProductListState();
 }
 
-class _ListOrdersState extends State<ListOrders> {
+class _ProductListState extends State<ProductList> {
 
   //Main Page
   @override
@@ -24,31 +24,30 @@ class _ListOrdersState extends State<ListOrders> {
 
     var list = new List<int>.generate(productProvider.productList.length, (i) => i + 1);
 
-    print('product built');
 
     return Scaffold(
       backgroundColor: Color(0xFF293770),
       //Drawer
       drawer: Drawer(
-        backgroundColor: Color(0xFF29376F),
+        backgroundColor: Color(0xFFFFFFFF),
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
                 accountName: Text('accountName'),
                 accountEmail: Text('accountEmail')),
             ListTile(
-              leading: Icon(Icons.login, color: Colors.white),
+              leading: Icon(Icons.login, color: Colors.grey.shade600),
               title: Text(
                 'Login',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.grey.shade600),
               ),
               onTap: () {
                 Navigator.pushNamed(context, '/Home');
               },
             ),
             ListTile(
-              leading: Icon(Icons.shopping_cart_rounded, color: Colors.white),
-              title: Text('Cart', style: TextStyle(color: Colors.white)),
+              leading: Icon(Icons.shopping_cart_rounded, color: Colors.grey.shade600),
+              title: Text('Cart', style: TextStyle(color: Colors.grey.shade600)),
               onTap: () {
                 Navigator.pushNamed(context, '/YourCart');
               },

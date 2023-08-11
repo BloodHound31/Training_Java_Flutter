@@ -123,7 +123,7 @@ class UserData{
             body: jsonEncode({
               'userName': userName,
               'userAddress': userAddress,
-              'paymentOption': paymentOption,
+              'paymentOption': paymentOption
             }));
 
         if (response.statusCode == 200) {

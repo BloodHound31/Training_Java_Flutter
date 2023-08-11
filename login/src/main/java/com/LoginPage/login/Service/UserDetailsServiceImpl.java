@@ -38,8 +38,18 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		// TODO Auto-generated method stub
 		UserDetails currentUser = userDetailsRepo.findByUserName(userDetails.getUserName());
 		if(currentUser == null) {
+			
+//			for(Bill bill : userDetails.getBills()) {
+//				addBillsToUser(userDetails.getUserName(), bill);
+//			}
+				
 			return userDetailsRepo.save(userDetails);
-		}else {
+		}
+		else 
+		{
+//			for(Bill bill : userDetails.getBills()) {
+//				addBillsToUser(userDetails.getUserName(), bill);
+//			}
 			return null;
 		}
 		
@@ -60,7 +70,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 			billRepository.save(bill);
 			
 			return currenUserDetails;
-		}else {
+		}
+		else 
+		{
 			return null;
 		}
 		

@@ -27,4 +27,10 @@ public class BillServiceImpl implements BillService{
 		return billRepository.findAll();
 	}
 
+	@Override
+	public void addBill(String userName,Bill bill) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -10,6 +10,17 @@ class OrderData{
   late double payAmount;
 
 
+  // OrderData({required this.totalMrp, required this.totalDiscount, required this.payAmount});
+  //
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'totalMrp': totalMrp,
+  //     'totalDiscount': totalDiscount,
+  //     'payAmount': payAmount,
+  //   };
+  // }
+
+
 
  static void ShowToast(String msg) {
     Fluttertoast.showToast(
