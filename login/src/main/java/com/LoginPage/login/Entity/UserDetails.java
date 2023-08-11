@@ -28,7 +28,7 @@ public class UserDetails {
 	@Column(name="Payment_Option")
 	private String paymentOption;
 	
-	@OneToMany(targetEntity = Bill.class, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bill> bills;
 
 	public UserDetails() {
@@ -90,6 +90,8 @@ public class UserDetails {
 		return "UserDetails [userId=" + userId + ", userName=" + userName + ", userAddress=" + userAddress
 				+ ", paymentOption=" + paymentOption + ", bills=" + bills + "]";
 	}
+	
+	
 	
 	
 	

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.LoginPage.login.Entity.Bill;
+import com.LoginPage.login.Entity.UserDetails;
 import com.LoginPage.login.Repository.BillRepository;
 
 
@@ -18,6 +19,7 @@ public class BillServiceImpl implements BillService{
 	@Override
 	public List<Bill> getBillByUser(String userName) {
 		// TODO Auto-generated method stub
+		
 		return billRepository.findBillsByUserName(userName);
 	}
 
@@ -31,6 +33,16 @@ public class BillServiceImpl implements BillService{
 	public void addBill(String userName,Bill bill) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public String getUserName(int billId) {
+		// TODO Auto-generated method stub
+		Bill bill = billRepository.getById(billId);
+		UserDetails userTemp = bill.getUserDetails();
+		
+		
+		return userTemp.getUserName();
 	}
 
 }

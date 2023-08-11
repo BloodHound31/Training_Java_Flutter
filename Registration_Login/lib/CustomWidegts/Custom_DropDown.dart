@@ -83,6 +83,7 @@ class _DropDownButtonPageState extends State<DropDownButtonPage> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -168,6 +169,66 @@ class _PaymentDropDownState extends State<PaymentDropDown> {
             });
           },
           items: widget.paymentList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(value),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+//This is the custom dropdown for status sort
+
+class StatusDropDown extends StatefulWidget {
+  final List<String> statusList;
+  final String? dropDownValue;
+  final void Function(String? value) onDropDownChanged;
+
+  const StatusDropDown(
+      {required this.statusList, Key? key, required this.dropDownValue, required this.onDropDownChanged})
+      : super(key: key);
+
+  @override
+  State<StatusDropDown> createState() => _StatusDropDownState();
+}
+
+class _StatusDropDownState extends State<StatusDropDown> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    //dropDownValue = widget.list.first;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: Color(0xFF293771),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          hint: Text('Select'),
+          value: widget.dropDownValue,
+          // isExpanded: true,
+          icon: const Icon(Icons.arrow_drop_down, color: Colors.white,size: 30,),
+          elevation: 14,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          dropdownColor: Color(0xFF293771),
+          onChanged: (value) {
+            setState(() {
+              widget.onDropDownChanged(value);
+            });
+          },
+          items: widget.statusList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Padding(

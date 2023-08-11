@@ -12,6 +12,8 @@ import com.LoginPage.login.Entity.Bill;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Integer>{
+	
+	Bill getById(int id);
 
 	@Query("SELECT b FROM Bill b JOIN b.userDetails u WHERE u.userName = :userName")
  	List<Bill> findBillsByUserName(@Param("userName") String userName);

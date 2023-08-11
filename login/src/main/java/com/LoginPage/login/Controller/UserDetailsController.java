@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LoginPage.login.Entity.Bill;
 import com.LoginPage.login.Entity.UserDetails;
-import com.LoginPage.login.Repository.BillRepository;
 import com.LoginPage.login.Service.BillService;
 import com.LoginPage.login.Service.UserDetailsService;
 
@@ -61,6 +61,11 @@ public class UserDetailsController {
 	@GetMapping("Bills/{userName}")
 	public List<Bill> getUserBills(@PathVariable String userName){
 		return billService.getBillByUser(userName);
+	}
+	
+	@GetMapping("Bills/")
+	public String getUserNameStringFromBillId(@RequestParam(name = "billId") int billId) {
+		return billService.getUserName(billId);
 	}
 
 }

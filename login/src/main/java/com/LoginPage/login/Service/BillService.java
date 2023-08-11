@@ -15,5 +15,7 @@ public interface BillService {
 	public List<Bill> getAllBills();
 	
 	public void addBill(String userName,Bill bill);
+	
+	public String getUserName(int billId);
 
 }

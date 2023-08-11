@@ -5,13 +5,17 @@ import 'dart:convert';
 
 class OrderData{
 
+  late int id;
+  late String productName;
+  late int productQuantity;
   late double totalMrp;
   late double totalDiscount;
   late double payAmount;
+  late String orderStatus;
 
 
-  // OrderData({required this.totalMrp, required this.totalDiscount, required this.payAmount});
-  //
+  OrderData({required this.id, required this.productName, required this.productQuantity,required this.totalMrp, required this.totalDiscount, required this.payAmount, required this.orderStatus});
+
   // Map<String, dynamic> toJson() {
   //   return {
   //     'totalMrp': totalMrp,
