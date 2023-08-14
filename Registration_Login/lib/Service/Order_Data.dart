@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:resgistration_login/Entity/BillingAddress.dart';
+import 'package:resgistration_login/Entity/ProductDetails.dart';
 
 class OrderData{
 
   late int id;
-  late String productName;
+  late String customerName;
   late int productQuantity;
   late double totalMrp;
   late double totalDiscount;
   late double payAmount;
   late String orderStatus;
+  late BillingAddress billingAddress;
+  late List<ProductDetails> productList;
 
 
-  OrderData({required this.id, required this.productName, required this.productQuantity,required this.totalMrp, required this.totalDiscount, required this.payAmount, required this.orderStatus});
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'totalMrp': totalMrp,
-  //     'totalDiscount': totalDiscount,
-  //     'payAmount': payAmount,
-  //   };
-  // }
+  OrderData({required this.id, required this.customerName, required this.productQuantity,required this.totalMrp, required this.totalDiscount, required this.payAmount, required this.orderStatus, required this.billingAddress, required this.productList});
 
 
 

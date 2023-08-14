@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
+import 'package:resgistration_login/Entity/BillingAddress.dart';
+import 'package:resgistration_login/Entity/ProductDetails.dart';
 import 'package:resgistration_login/Service/Order_Data.dart';
 
 
@@ -14,11 +16,25 @@ class OrderList extends StatefulWidget {
 
 
 List<OrderData> orderList = [
-  OrderData(id: 1, totalMrp: 300, totalDiscount: 50, payAmount: 100, orderStatus: 'Pending', productName: 'Bath Soap', productQuantity: 5),
-  OrderData(id: 2, totalMrp: 500, totalDiscount: 100, payAmount: 400, orderStatus: 'Pending', productName: 'ToothBrush', productQuantity: 10),
-  OrderData(id: 3, totalMrp: 500, totalDiscount: 100, payAmount: 400, orderStatus: 'PartialCancelled', productName: 'Notebook', productQuantity: 10),
-  OrderData(id: 4, totalMrp: 900, totalDiscount: 200, payAmount: 700, orderStatus: 'Full Cancel', productName: 'Pen', productQuantity: 10),
-  OrderData(id: 5, totalMrp: 1000, totalDiscount: 100, payAmount: 900, orderStatus: 'Delivered', productName: 'Coca Cola', productQuantity: 5)
+  OrderData(id: 1, totalMrp: 300, totalDiscount: 50, payAmount: 100, orderStatus: 'Pending', customerName: 'Customer A', productQuantity: 5, 
+      billingAddress: BillingAddress(buildingName: 'Show-13 Amar Building', streetName: 'Main Carter Road', townName: 'Borivali West', cityName: 'Mumbai', stateName: 'Maharashtra', pinCode: 400092),
+      productList: [ProductDetails(productName: 'Bath Soap', productQuantity: 10, productPrice: 50), ProductDetails(productName: 'Detergent', productQuantity: 20, productPrice: 30)]),
+
+  OrderData(id: 2, totalMrp: 500, totalDiscount: 100, payAmount: 400, orderStatus: 'Pending', customerName: 'Customer B', productQuantity: 10, 
+      billingAddress: BillingAddress(buildingName: 'Shop No.1 Sheetal Park', streetName: 'Sundar Nagar', townName: 'Borivali West', cityName: 'Mumbai', stateName: 'Maharashtra', pinCode: 400092),
+      productList: [ProductDetails(productName: 'Maggie', productQuantity: 10, productPrice: 80), ProductDetails(productName: 'ToothBrush', productQuantity: 15, productPrice: 40)]),
+
+  OrderData(id: 3, totalMrp: 500, totalDiscount: 100, payAmount: 400, orderStatus: 'PartialCancelled', customerName: 'Customer C', productQuantity: 10, 
+      billingAddress: BillingAddress(buildingName: 'Shop No. 37 Ajanta Square Mal', streetName: 'L.T Road', townName: 'Borivali West', cityName: 'Mumbai', stateName: 'Maharashtra', pinCode: 400092),
+      productList: [ProductDetails(productName: 'Potato Chips', productQuantity: 40, productPrice: 20), ProductDetails(productName: 'Cheese', productQuantity: 20, productPrice: 15)]),
+
+  OrderData(id: 4, totalMrp: 900, totalDiscount: 200, payAmount: 700, orderStatus: 'Full Cancel', customerName: 'Customer D', productQuantity: 10,
+      billingAddress: BillingAddress(buildingName: 'Shop No.2, daya benkhat poul', streetName: 'Dattapada Rd', townName: 'Borivali East', cityName: 'Mumbai', stateName: 'Maharashtra', pinCode: 400066),
+      productList: [ProductDetails(productName: 'Bread', productQuantity: 20, productPrice: 40), ProductDetails(productName: 'Cold Drink', productQuantity: 20, productPrice: 20)]),
+
+  OrderData(id: 5, totalMrp: 1000, totalDiscount: 100, payAmount: 900, orderStatus: 'Delivered', customerName: 'Customer E', productQuantity: 5, 
+      billingAddress: BillingAddress(buildingName: ' Annapurna mart Shop no 2 Esspee tower ', streetName: 'Dattapada Rd', townName: 'Borivali East', cityName: 'Mumbai', stateName: 'Maharashtra', pinCode: 400066),
+      productList: [ProductDetails(productName: 'Dairy Milk', productQuantity: 30, productPrice: 20), ProductDetails(productName: 'Oreo', productQuantity: 20, productPrice: 35)])
 ];
 
 
@@ -48,7 +64,7 @@ void SearchProduct(String enteredKeyword) {
   } else {
     result = orderList
         .where((element) =>
-    element.productName
+    element.customerName
         .toLowerCase()
         .contains(enteredKeyword.toLowerCase()))
         .toList();
@@ -158,7 +174,7 @@ class _OrderListState extends State<OrderList> {
                         padding: const EdgeInsets.all(2.0),
                         child: ExpansionTile(
                           childrenPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                          title: Text('${filteredItems[index].productName}',
+                          title: Text('${filteredItems[index].customerName}',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           children: [
@@ -204,7 +220,10 @@ class _OrderListState extends State<OrderList> {
                                     CustomStatus(index),
                                     ElevatedButton(
                                         onPressed: (){
-                                          Navigator.pushNamed(context, '/OrderDetails');
+                                          Navigator.pushNamed(context, '/OrderDetails',
+                                              arguments: {
+                                              'billingAddress': filteredItems[index].billingAddress,
+                                              'productList': filteredItems[index].productList});
                                         },
                                         child: Text('Order Details'),
                                       style: ButtonStyle(
