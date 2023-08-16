@@ -242,3 +242,59 @@ class _StatusDropDownState extends State<StatusDropDown> {
     );
   }
 }
+
+// This is payment summary DropDown
+class PaymentSelectDropdown extends StatefulWidget {
+  final List<String> statusList;
+  final String? dropDownValue;
+  final void Function(String? value) onDropDownChanged;
+
+  const PaymentSelectDropdown(
+      {required this.statusList, Key? key, required this.dropDownValue, required this.onDropDownChanged})
+      : super(key: key);
+
+  @override
+  State<PaymentSelectDropdown> createState() => _PaymentSelectDropdownState();
+}
+
+class _PaymentSelectDropdownState extends State<PaymentSelectDropdown> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    //dropDownValue = widget.list.first;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: Color(0xFF293771),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          hint: Text('Select'),
+          value: widget.dropDownValue,
+          // isExpanded: true,
+          icon: const Icon(Icons.arrow_drop_down, color: Colors.white,size: 30,),
+          elevation: 14,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          dropdownColor: Color(0xFF293771),
+          onChanged: (value) {
+            setState(() {
+              widget.onDropDownChanged(value);
+            });
+          },
+          items: widget.statusList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(value),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}

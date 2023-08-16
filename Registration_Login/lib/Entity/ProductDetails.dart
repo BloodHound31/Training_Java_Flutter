@@ -6,6 +6,7 @@ class ProductDetails{
   late int totalProductPrice;
   late int initialQuantity;
   late int initialTotal;
+  //late int totalAmount;
 
   ProductDetails({required this.productName, required this.productQuantity, required this.productPrice}){
     totalProductPrice = totalPrice(productPrice, productQuantity);
@@ -41,6 +42,7 @@ class ProductDetails{
     initialQuantity = productQuantity;
     initialTotal = totalProductPrice;
   }
+
 
 
 }

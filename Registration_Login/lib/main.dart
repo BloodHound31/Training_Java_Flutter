@@ -11,6 +11,7 @@ import 'package:resgistration_login/Pages/home.dart';
 import 'package:resgistration_login/Pages/login.dart';
 import 'package:resgistration_login/Pages/register.dart';
 import 'package:resgistration_login/Providers/Cart_Provider.dart';
+//import 'package:resgistration_login/Providers/Order_Provider.dart';
 import 'package:resgistration_login/Providers/Product_Provider.dart';
 
 
@@ -19,6 +20,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (BuildContext context) => CartItemProvider()),
       ChangeNotifierProvider(create: (BuildContext context) => ProductProvider()),
+      //ChangeNotifierProvider(create: (BuildContext context) => OrderProvider()),
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -220,6 +220,7 @@ class _OrderListState extends State<OrderList> {
                                     CustomStatus(index),
                                     ElevatedButton(
                                         onPressed: (){
+
                                           Navigator.pushNamed(context, '/OrderDetails',
                                               arguments: {
                                               'billingAddress': filteredItems[index].billingAddress,
@@ -244,7 +245,7 @@ class _OrderListState extends State<OrderList> {
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
