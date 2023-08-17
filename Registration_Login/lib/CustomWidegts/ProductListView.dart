@@ -24,6 +24,7 @@ class _ProductListViewState extends State<ProductListView> {
 
     PageController _pageController = PageController(initialPage: 0);
 
+
     return Column(
       children: [
         Expanded(

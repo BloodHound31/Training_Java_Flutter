@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:resgistration_login/CustomWidegts/CashAndCheque.dart';
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
+import 'package:resgistration_login/CustomWidegts/HalfCashOnly.dart';
 
 class PartialPayment extends StatefulWidget {
   final int amount;
@@ -10,112 +12,64 @@ class PartialPayment extends StatefulWidget {
   State<PartialPayment> createState() => _PartialPaymentState();
 }
 
-List<String> paymentOption = ['Cash', 'Online'];
+List<String> paymentOption = ['Cash & Cheque', 'Half Cash Only', 'Half Cash & Half Credit'];
 
 
 
 class _PartialPaymentState extends State<PartialPayment> {
 
-  TextEditingController amountController = TextEditingController();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    amountController = TextEditingController();
 
-  }
-  int remainingAmount = 0;
+
+  String? dropDownValue = paymentOption.first;
 
   @override
   Widget build(BuildContext context) {
-    String? dropDownValue = paymentOption.first;
 
+    print('Provider Needed');
+    //This is the payment methods widget
+    Widget paymentDetailsWidget;
 
-
-    //int totalAmount = widget.amount;
-
-    void PendingAmount(String text){
-
-      if(text.isNotEmpty){
-        int payingAmount = int.tryParse(text) ?? 0;
-        int pendingAmount = widget.amount - payingAmount;
-        setState(() {
-          remainingAmount = pendingAmount;
-        });
-
-      }
+    switch (dropDownValue) {
+      case 'Cash & Cheque':
+        paymentDetailsWidget = CashChequePartial();
+        break;
+      case 'Half Cash Only':
+        paymentDetailsWidget = HalfCash(amount: widget.amount,);
+        break;
+      case 'Half Cash & Half Credit':
+        paymentDetailsWidget =  Container(child: Text('This is Half Cash & Half Credit'),);
+        break;
+      default:
+        paymentDetailsWidget = Container(); // Default case
     }
 
+
+
+
     return Container(
-        height: 224,
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
+      height: 600,
+      width: double.infinity,
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5, top: 8, bottom: 5),
-                      child: TextField(
-                        controller: amountController,
-                        onChanged: PendingAmount,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            label: Text('Amount will be paying'),
-                            fillColor: Color(0xFFFFFFFF),
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 7,),
-                  Expanded(
-                    flex: 1,
-                    child: StatusDropDown(
-                      statusList: paymentOption,
-                      onDropDownChanged: (String? value){
-                        setState(() {
-                          dropDownValue = value!;
-                        });
-                      },
-                      dropDownValue: dropDownValue,
-                    ),
-                  )
-                ],
+              Expanded(
+                child: StatusDropDown(
+                  statusList: paymentOption,
+                  onDropDownChanged: (String? value){
+                    setState(() {
+                      dropDownValue = value!;
+                    });
+                  },
+                  dropDownValue: dropDownValue,
+                ),
               ),
-              SizedBox(height: 5),
-              Text("Amount to be paid: ${amountController.text}"),
-              SizedBox(height: 5,),
-              Text('Remaining Amount: $remainingAmount'),
-              SizedBox(height: 5,),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: (){},
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF293770))
-                      ),
-                    ),
-                  ),
-                ],
-              )
             ],
           ),
-        )
+          SizedBox(height: 10,),
+          paymentDetailsWidget,
+        ],
+      ),
     );
   }
 }

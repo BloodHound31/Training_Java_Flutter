@@ -111,9 +111,7 @@ class _ProductListState extends State<ProductList> {
             ),
             Expanded(
               flex: 5,
-              child: Consumer<ProductProvider>(builder: (context, value, child){
-                return ProductListView();
-              })
+              child: ProductListView()
             ),
           ],
         ),

@@ -14,13 +14,15 @@ import 'package:resgistration_login/Providers/Cart_Provider.dart';
 //import 'package:resgistration_login/Providers/Order_Provider.dart';
 import 'package:resgistration_login/Providers/Product_Provider.dart';
 
+import 'Providers/Order_Provider.dart';
+
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (BuildContext context) => CartItemProvider()),
       ChangeNotifierProvider(create: (BuildContext context) => ProductProvider()),
-      //ChangeNotifierProvider(create: (BuildContext context) => OrderProvider()),
+      ChangeNotifierProvider(create: (BuildContext context) => OrderProvider()),
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,

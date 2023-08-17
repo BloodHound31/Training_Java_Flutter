@@ -65,10 +65,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
   @override
   Widget build(BuildContext context) {
     final Map cartPageData = ModalRoute.of(context)?.settings.arguments as Map;
-
     final cart = Provider.of<CartItemProvider>(context);
 
-    // List<CartItems> cartItems = cartPageData['CartItems'];
     double totalPrice = cartPageData['totalPrice'];
     double discountPrice = cartPageData['totalDiscount'];
 

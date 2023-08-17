@@ -30,10 +30,14 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context)!.settings.arguments as Map;
 
+
+    print('Order details is being build');
 
     BillingAddress billingAddress = data['billingAddress'];
     List<ProductDetails> productSummary = data['productList'];
@@ -56,7 +60,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         paymentDetailsWidget = PaymentMethods().CastWidget(text: '${PayAmount()}');
         break;
       case 'Cheque':
-        paymentDetailsWidget = BankWidget();
+        paymentDetailsWidget = Container(width: double.infinity, child: BankWidget());
         break;
       case 'Partial Payment':
         paymentDetailsWidget =  PartialPayment(amount: PayAmount());
@@ -125,75 +129,72 @@ class _OrderDetailsState extends State<OrderDetails> {
                             showWidget = !showWidget;
                           });
 
-                          print(showWidget);
                         },
                         icon: Icon(Icons.edit, size: 16,))
                   ]
                 ),
                 SizedBox(height: 10,),
-                SingleChildScrollView(
-                  child: Container(
-                    height: 175,
-                    width: double.infinity,
-                    child: ListView.builder(
-                        itemCount: productSummary.length,
-                        itemBuilder: (context, index){
-                          return ListTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('${productSummary[index].productName}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
-                                Text('Rs. ${productSummary[index].totalProductPrice}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
-                              ],
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Qty: ${productSummary[index].productQuantity}'),
-                              showWidget ? Row(
-                                  children: [
-                                     IconButton(
-                                         onPressed: (){
-                                           setState(() {
-                                             productSummary[index].increaseProduct();
-                                           });
-                                         },
-                                         icon: Icon(Icons.arrow_circle_up, size: 24,),
-                                         color: Color(0xFF29376F)),
-                                     IconButton(
-                                         onPressed: (){
-                                           setState(() {
-                                             productSummary[index].decreaseProduct();
-                                           });
-                                         },
-                                         icon: Icon(Icons.arrow_circle_down, size: 24,), color: Color(0xFF29376F)),
-                                     IconButton(
+                Container(
+                  width: double.infinity,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: productSummary.length,
+                      itemBuilder: (context, index){
+                        return ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('${productSummary[index].productName}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
+                              Text('Rs. ${productSummary[index].totalProductPrice}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
+                            ],
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Qty: ${productSummary[index].productQuantity}'),
+                            showWidget ? Row(
+                                children: [
+                                   IconButton(
                                        onPressed: (){
                                          setState(() {
-                                           showWidget = !showWidget;
-                                           productSummary[index].updateSummary();
+                                           productSummary[index].increaseProduct();
                                          });
                                        },
-                                       icon: Icon(Icons.check_circle_outline, size: 24,), color: Colors.green[900],),
-                                     IconButton(
-                                         onPressed: (){ setState(() {
-                                            showWidget = !showWidget;
-                                            productSummary[index].goToDefault();
+                                       icon: Icon(Icons.arrow_circle_up, size: 24,),
+                                       color: Color(0xFF29376F)),
+                                   IconButton(
+                                       onPressed: (){
+                                         setState(() {
+                                           productSummary[index].decreaseProduct();
                                          });
-                                           },
-                                         icon: Icon(Icons.cancel_outlined), color: Colors.red[800])
-                                  ],
-                                ): Container(),
-                              ],
-                            ) ,
-                          );
-                        }),
-                  ),
+                                       },
+                                       icon: Icon(Icons.arrow_circle_down, size: 24,), color: Color(0xFF29376F)),
+                                   IconButton(
+                                     onPressed: (){
+                                       setState(() {
+                                         showWidget = !showWidget;
+                                         productSummary[index].updateSummary();
+                                       });
+                                     },
+                                     icon: Icon(Icons.check_circle_outline, size: 24,), color: Colors.green[900],),
+                                   IconButton(
+                                       onPressed: (){ setState(() {
+                                          showWidget = !showWidget;
+                                          productSummary[index].goToDefault();
+                                       });
+                                         },
+                                       icon: Icon(Icons.cancel_outlined), color: Colors.red[800])
+                                ],
+                              ): Container(),
+                            ],
+                          ) ,
+                        );
+                      }),
                 ),
                 Text('Total Amount: ${PayAmount()}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF29376E)),),
                 Divider(color: Color(0x8029376F), thickness: 1,),
                 Container(
-                  height: 315,
+                  height: 700,
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
