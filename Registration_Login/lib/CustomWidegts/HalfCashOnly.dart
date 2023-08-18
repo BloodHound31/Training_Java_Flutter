@@ -58,9 +58,9 @@ class _HalfCashState extends State<HalfCash> {
                         onChanged: PendingAmount,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(15),
-                            label: Text('Amount will be paying'),
-                            fillColor: Color(0xFFFFFFFF),
+                            contentPadding: const EdgeInsets.all(15),
+                            label: const Text('Amount will be paying'),
+                            fillColor: const Color(0xFFFFFFFF),
                             filled: true,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -71,28 +71,28 @@ class _HalfCashState extends State<HalfCash> {
                   ),
                 ],
               ),
-              SizedBox(width: 7,),
+              const SizedBox(width: 7,),
 
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Text("Amount to be paid: ${amountController.text}"),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Text('Remaining Amount: $remainingAmount'),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
                       onPressed: (){},
-                      child: Text(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF293770))
+                      ),
+                      child: const Text(
                         'Submit',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF293770))
                       ),
                     ),
                   ),

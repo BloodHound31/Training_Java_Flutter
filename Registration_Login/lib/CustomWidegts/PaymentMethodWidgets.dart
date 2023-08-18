@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
+import 'package:provider/provider.dart';
+import 'package:resgistration_login/Providers/OrderDetailsProvider.dart';
 
 
 
@@ -16,7 +17,7 @@ class PaymentMethods{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Amount To Be Paid:\nRs.$text', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Color(0xFF293770)),),
+            Consumer<OrderDetailsProvider>(builder: (context, value, child) => Text('Amount To Be Paid:\nRs.${value.PayAmount()}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Color(0xFF293770)),),),
             SizedBox(height: 30,),
             Row(
               children: [

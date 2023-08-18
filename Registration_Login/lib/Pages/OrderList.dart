@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
-import 'package:resgistration_login/Entity/BillingAddress.dart';
-import 'package:resgistration_login/Entity/ProductDetails.dart';
 import 'package:resgistration_login/Providers/Order_Provider.dart';
-import 'package:resgistration_login/Service/Order_Data.dart';
+
+import '../Providers/OrderDetailsProvider.dart';
 
 
 
@@ -17,33 +16,26 @@ class OrderList extends StatefulWidget {
 }
 
 
-
-
-List<String> statusList = ['All', 'Pending', 'Full Cancel', 'Delivered', 'PartialCancelled'];
-
-
 class _OrderListState extends State<OrderList> {
-
-
 
   @override
   Widget build(BuildContext context) {
     final orderList = Provider.of<OrderProvider>(context, listen: false);
+    final orderDetailsList = Provider.of<OrderDetailsProvider>(context, listen: false);
 
-    print('This is being build');
     return Scaffold(
-      backgroundColor: Color(0xFF293770),
+      backgroundColor: const Color(0xFF293770),
       appBar: AppBar(
-        title: Text('Order History'),
+        title: const Text('Order History'),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Color(0xFF293770),
+        backgroundColor: const Color(0xFF293770),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color(0xFF8C9BDA),
+          color: const Color(0xFF8C9BDA),
         ),
         child: Column(
           children: [
@@ -53,37 +45,32 @@ class _OrderListState extends State<OrderList> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Consumer<OrderProvider>(builder: (_, orderDetails, child) {
-                      return TextField(
-                        onChanged: (value) => orderDetails.SearchProduct(value),
+                    child:TextField(
+                        onChanged: (value) => orderList.SearchProduct(value),
                         decoration: InputDecoration(
-                            fillColor: Color(0xFFF1F2EB),
+                            fillColor: const Color(0xFFF1F2EB),
                             filled: true,
                             labelText: 'Search',
-                            prefixIcon: Icon(Icons.search),
+                            prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
-                      );
-                    },
-                    ),
+                      ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(
                     flex: 2,
-                    child: Consumer<OrderProvider>(builder: (_, orderDetails, child) {
+                    child: Consumer<OrderProvider>(builder: (_, orderList, child) {
                       return StatusDropDown(
-                        statusList: statusList,
-                        onDropDownChanged: (value) {
-                          orderDetails.sortByStatus(value);
-                        },
-                        dropDownValue: orderDetails.selectedStatus,
+                        statusList: orderList.statusList,
+                        onDropDownChanged: (value) => orderList.sortByStatus(value),
+                        dropDownValue: orderList.selectedStatus,
                       );
                     },),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                 ],
               ),
             ),
@@ -94,55 +81,55 @@ class _OrderListState extends State<OrderList> {
                       itemCount: orderDetails.filteredList.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+                          padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            color: Color(0xFFEEEEEE),
+                            color: const Color(0xFFEEEEEE),
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: ExpansionTile(
-                                childrenPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                                title: Text('${orderDetails.filteredList[index].customerName}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                childrenPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                                title: Text(orderDetails.filteredList[index].customerName,
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 children: [
                                   Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Bill No. ${orderDetails.filteredList[index].id}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )),
-                                  Divider(),
+                                  const Divider(),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Mrp Amount:'),
+                                          const Text('Mrp Amount:'),
                                           Text('${orderDetails.filteredList[index].totalMrp}')
                                         ],
                                       ),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Total Discount:'),
+                                          const Text('Total Discount:'),
                                           Text('${orderDetails.filteredList[index].totalDiscount}')
                                         ],
                                       ),
-                                      Divider(),
+                                      const Divider(),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Total Amount:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                                          Text('${orderDetails.filteredList[index].payAmount}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                                          const Text('Total Amount:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                                          Text('${orderDetails.filteredList[index].payAmount}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
                                         ],
                                       ),
-                                      SizedBox(height: 15,),
+                                      const SizedBox(height: 15,),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
@@ -150,18 +137,19 @@ class _OrderListState extends State<OrderList> {
                                           ElevatedButton(
                                             onPressed: (){
 
+                                              orderDetailsList.IntializeValue(orderDetails.filteredList[index].productList);
                                               Navigator.pushNamed(context, '/OrderDetails',
                                                   arguments: {
                                                     'billingAddress': orderDetails.filteredList[index].billingAddress,
                                                     'productList': orderDetails.filteredList[index].productList});
                                             },
-                                            child: Text('Order Details'),
                                             style: ButtonStyle(
-                                                backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF293770)),
+                                                backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF293770)),
                                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.circular(20)),
                                                 )
                                             ),
+                                            child: const Text('Order Details'),
                                           ),
                                         ],
                                       )

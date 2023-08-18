@@ -25,19 +25,18 @@ class _PartialPaymentState extends State<PartialPayment> {
   @override
   Widget build(BuildContext context) {
 
-    print('Provider Needed');
     //This is the payment methods widget
     Widget paymentDetailsWidget;
 
     switch (dropDownValue) {
       case 'Cash & Cheque':
-        paymentDetailsWidget = CashChequePartial();
+        paymentDetailsWidget = const CashChequePartial();
         break;
       case 'Half Cash Only':
         paymentDetailsWidget = HalfCash(amount: widget.amount,);
         break;
       case 'Half Cash & Half Credit':
-        paymentDetailsWidget =  Container(child: Text('This is Half Cash & Half Credit'),);
+        paymentDetailsWidget =  Container(child: const Text('This is Half Cash & Half Credit'),);
         break;
       default:
         paymentDetailsWidget = Container(); // Default case
@@ -66,7 +65,7 @@ class _PartialPaymentState extends State<PartialPayment> {
               ),
             ],
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           paymentDetailsWidget,
         ],
       ),

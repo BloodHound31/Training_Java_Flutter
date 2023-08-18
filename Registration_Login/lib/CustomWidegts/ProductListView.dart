@@ -20,101 +20,95 @@ class _ProductListViewState extends State<ProductListView> {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartItemProvider>(context);
-    final productProvider = Provider.of<ProductProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
-    PageController _pageController = PageController(initialPage: 0);
+    PageController pageController = PageController(initialPage: 0);
 
 
     return Column(
       children: [
         Expanded(
           child: PageView.builder(
-            controller: _pageController,
+            controller: pageController,
             itemCount: (productProvider.productFound.length / productProvider.productsToShow).ceil(),
             itemBuilder: (context, pageIndex) {
-              final int startIndex = pageIndex * productProvider.productsToShow;
-              final int endIndex =
-              (startIndex + productProvider.productsToShow < productProvider.productFound.length)
-                  ? startIndex + productProvider.productsToShow
-                  : productProvider.productFound.length;
-
-              final List<ProductData> productsOnPage =
-              productProvider.productFound.sublist(startIndex, endIndex);
+              productProvider.pageSorting(pageIndex);
               //list view
               return Container(
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: ListView.builder(
-                  itemCount: productsOnPage.length,
+                  itemCount: productProvider.productsOnPage.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+                      padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
-                        color: Color(0xFFEEEEEE),
+                        color: const Color(0xFFEEEEEE),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
-                            title: Text(productsOnPage[index].productName,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            title: Text(productProvider.productsOnPage[index].productName,
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Product Description: ${productsOnPage[index].productDiscription}'),
-                                Text('Product MRP: ${productsOnPage[index].productPrice.toString()}'),
-                                Text('Discount by seller: ${productsOnPage[index].sellerDiscount.toString()}%'),
-                                Text('Final Price: ${productsOnPage[index].finalPrice.toString()}'),
-                                Text('Seller: ${productsOnPage[index].sellerName}'),
-                                Text('Category: ${productsOnPage[index].productCategories}'),
-                                Text('Available Stocks: ${productsOnPage[index].availableStock}'),
+                                Text('Product Description: ${productProvider.productsOnPage[index].productDiscription}'),
+                                Text('Product MRP: ${productProvider.productsOnPage[index].productPrice.toString()}'),
+                                Text('Discount by seller: ${productProvider.productsOnPage[index].sellerDiscount.toString()}%'),
+                                Text('Final Price: ${productProvider.productsOnPage[index].finalPrice.toString()}'),
+                                Text('Seller: ${productProvider.productsOnPage[index].sellerName}'),
+                                Text('Category: ${productProvider.productsOnPage[index].productCategories}'),
+                                Text('Available Stocks: ${productProvider.productsOnPage[index].availableStock}'),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     CircleAvatar(
                                       radius: 18,
-                                      backgroundColor: Color(0xFF293771),
+                                      backgroundColor: const Color(0xFF293771),
                                       child: IconButton(
                                           onPressed: () {
-                                            cart.addItems(
-                                                product: productsOnPage[index],
-                                                productPrice: productsOnPage[index].productPrice,
-                                                discountPercent: productsOnPage[index].sellerDiscount);
-                                            productsOnPage[index].DecreaseStocks();
+                                            // cart.addItems(
+                                            //     product: productProvider.productsOnPage[index],
+                                            //     productPrice: productProvider.productsOnPage[index].productPrice,
+                                            //     discountPercent: productProvider.productsOnPage[index].sellerDiscount);
+                                            productProvider.decreaseStocks(index);
                                           },
-                                          icon: Icon(
+
+                                          icon: const Icon(
                                             Icons.add,
                                             size: 18,
                                             color: Colors.white,
                                           )),
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     Text(
                                       cart.items.containsKey(
-                                          productsOnPage[index]
+                                          productProvider.productsOnPage[index]
                                               .productName)
                                           ? cart
-                                          .items[productsOnPage[index]
+                                          .items[productProvider.productsOnPage[index]
                                           .productName]!
                                           .productQuantity
                                           .toString()
                                           : '0',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     CircleAvatar(
                                       radius: 18,
-                                      backgroundColor: Color(0xFF293771),
+                                      backgroundColor: const Color(0xFF293771),
                                       child: IconButton(
                                           onPressed: () {
-                                            cart.subtractItems(product: productsOnPage[index],
-                                                price: productsOnPage[index].productPrice);
-                                            productsOnPage[index].IncreaseStocks();
+                                            cart.subtractItems(product: productProvider.productsOnPage[index],
+                                                price: productProvider.productsOnPage[index].productPrice);
+                                            productProvider.productsOnPage[index].IncreaseStocks();
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.remove,
                                             size: 18,
                                             color: Colors.white,
@@ -144,9 +138,9 @@ class _ProductListViewState extends State<ProductListView> {
               children: [
                  ElevatedButton(
                     onPressed: () {
-                      if (_pageController.page! > 0) {
-                        _pageController.previousPage(
-                          duration: Duration(milliseconds: 300),
+                      if (pageController.page! > 0) {
+                        pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                         );
                       }
@@ -158,20 +152,20 @@ class _ProductListViewState extends State<ProductListView> {
                             borderRadius: BorderRadius.circular(30),
                           )),
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xFF8B9AD8)),
+                      MaterialStateProperty.all<Color>(const Color(0xFF8B9AD8)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Previous',
                       style: TextStyle(color: Color(0xFF29376F)),
                     ),
                   ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    if (_pageController.page! <
+                    if (pageController.page! <
                         (productProvider.productList.length / productProvider.productsToShow).ceil() - 1) {
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                       );
                     }
@@ -183,14 +177,14 @@ class _ProductListViewState extends State<ProductListView> {
                           borderRadius: BorderRadius.circular(30),
                         )),
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Color(0xFF8B9AD8)),
+                    MaterialStateProperty.all<Color>(const Color(0xFF8B9AD8)),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Next',
                     style: TextStyle(color: Color(0xFF29376F)),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 )
               ],

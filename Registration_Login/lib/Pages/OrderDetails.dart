@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:resgistration_login/CustomWidegts/PartialPayment.dart';
-import 'package:resgistration_login/CustomWidegts/PaymentMethodWidgets.dart';
+import 'package:provider/provider.dart';
 import 'package:resgistration_login/Entity/BillingAddress.dart';
 import 'package:resgistration_login/Entity/ProductDetails.dart';
+import 'package:resgistration_login/Providers/DropdownChangeProvider.dart';
+import 'package:resgistration_login/Providers/OrderDetailsProvider.dart';
 
-import '../CustomWidegts/BankWidget.dart';
 import '../CustomWidegts/Custom_DropDown.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -31,16 +31,16 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     Map data = ModalRoute.of(context)!.settings.arguments as Map;
 
 
-    print('Order details is being build');
-
     BillingAddress billingAddress = data['billingAddress'];
     List<ProductDetails> productSummary = data['productList'];
+
+    final orderDetailsProvider = Provider.of<OrderDetailsProvider>(context, listen: false);
+
 
     int PayAmount(){
       int payAmount = 0;
@@ -52,51 +52,30 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
 
 
-    //This is the payment methods widget
-    Widget paymentDetailsWidget;
-
-    switch (dropDownValue) {
-      case 'Cash':
-        paymentDetailsWidget = PaymentMethods().CastWidget(text: '${PayAmount()}');
-        break;
-      case 'Cheque':
-        paymentDetailsWidget = Container(width: double.infinity, child: BankWidget());
-        break;
-      case 'Partial Payment':
-        paymentDetailsWidget =  PartialPayment(amount: PayAmount());
-        break;
-      case 'Credit Note':
-        paymentDetailsWidget = PaymentMethods().CreditNoteWidget();
-        break;
-      default:
-        paymentDetailsWidget = Container(); // Default case
-    }
-
-
     return Scaffold(
-      backgroundColor: Color(0xFF29376F),
+      backgroundColor: const Color(0xFF29376F),
       appBar: AppBar(
-        backgroundColor: Color(0xFF29376F),
+        backgroundColor: const Color(0xFF29376F),
         elevation: 0.0,
-        title: Text('Order Details'),
+        title: const Text('Order Details'),
         centerTitle: true,
       ),
       body: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+        decoration: const BoxDecoration(
           color: Color(0xFF8B9AD8),
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(50),
               topLeft: Radius.circular(50)),
         ),
         child: Padding(
-          padding: EdgeInsets.only(top: 50, left: 30, right: 30),
+          padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Billing Address',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -104,18 +83,18 @@ class _OrderDetailsState extends State<OrderDetails> {
                     color: Color(0xFF29376F)
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text('${billingAddress.buildingName}, ${billingAddress.streetName}, ${billingAddress.townName}, ${billingAddress.cityName}, ${billingAddress.stateName}, ${billingAddress.pinCode}',
-                  style:TextStyle(
+                  style:const TextStyle(
                     fontSize: 16,
                     color: Color(0xFF29376F),
                   ),),
-                SizedBox(height: 10,),
-                Divider( color: Color(0x8029376F), thickness: 1,),
-                SizedBox(height: 15,),
+                const SizedBox(height: 10,),
+                const Divider( color: Color(0x8029376F), thickness: 1,),
+                const SizedBox(height: 15,),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'Product Summary',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -125,81 +104,86 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                     IconButton(
                         onPressed: (){
-                          setState(() {
-                            showWidget = !showWidget;
-                          });
-
+                          orderDetailsProvider.toggleWidget();
                         },
-                        icon: Icon(Icons.edit, size: 16,))
+                        icon: const Icon(Icons.edit, size: 16,))
                   ]
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Container(
                   width: double.infinity,
                   child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: productSummary.length,
                       itemBuilder: (context, index){
+                        //orderDetailsProvider.InitializeQuantity(productSummary[index].productQuantity);
                         return ListTile(
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('${productSummary[index].productName}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
-                              Text('Rs. ${productSummary[index].totalProductPrice}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
-                            ],
+                              Text(productSummary[index].productName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
+                              Selector<OrderDetailsProvider, int>(
+                                selector: (_, orderDetailsProvider) => orderDetailsProvider.productSummary[index].totalProductPrice,
+                                builder: (context, value, child) => Text('Rs. $value', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF29376F)),),
+                              )
+                                ],
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Qty: ${productSummary[index].productQuantity}'),
-                            showWidget ? Row(
-                                children: [
-                                   IconButton(
-                                       onPressed: (){
-                                         setState(() {
-                                           productSummary[index].increaseProduct();
-                                         });
-                                       },
-                                       icon: Icon(Icons.arrow_circle_up, size: 24,),
-                                       color: Color(0xFF29376F)),
-                                   IconButton(
-                                       onPressed: (){
-                                         setState(() {
-                                           productSummary[index].decreaseProduct();
-                                         });
-                                       },
-                                       icon: Icon(Icons.arrow_circle_down, size: 24,), color: Color(0xFF29376F)),
-                                   IconButton(
-                                     onPressed: (){
-                                       setState(() {
-                                         showWidget = !showWidget;
-                                         productSummary[index].updateSummary();
-                                       });
-                                     },
-                                     icon: Icon(Icons.check_circle_outline, size: 24,), color: Colors.green[900],),
-                                   IconButton(
-                                       onPressed: (){ setState(() {
-                                          showWidget = !showWidget;
-                                          productSummary[index].goToDefault();
-                                       });
-                                         },
-                                       icon: Icon(Icons.cancel_outlined), color: Colors.red[800])
-                                ],
-                              ): Container(),
+                              Selector<OrderDetailsProvider, int>(
+                                  selector: (_, orderDetailsProvider) => orderDetailsProvider.productSummary[index].productQuantity,
+                                  builder: (context, value, child) => Text('Qty: $value')),
+                              Selector<OrderDetailsProvider, bool>(
+                                selector: (_, orderDetailsProvider) => orderDetailsProvider.showWidget,
+                                builder: (context, value, child) {
+                                  print('selector called');
+                                  return value ? Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: (){
+                                            orderDetailsProvider.increaseProduct(index);
+                                          },
+                                          icon: const Icon(Icons.arrow_circle_up, size: 24,),
+                                          color: const Color(0xFF29376F)),
+                                      IconButton(
+                                          onPressed: (){
+
+                                            orderDetailsProvider.decreaseProduct(index);
+
+                                          },
+                                          icon: const Icon(Icons.arrow_circle_down, size: 24,), color: const Color(0xFF29376F)),
+                                      IconButton(
+                                        onPressed: (){
+                                          orderDetailsProvider.toggleWidget();
+                                          orderDetailsProvider.updateSummary(index);
+                                        },
+                                        icon: const Icon(Icons.check_circle_outline, size: 24,), color: Colors.green[900],),
+                                      IconButton(
+                                          onPressed: (){
+                                            orderDetailsProvider.toggleWidget();
+                                            orderDetailsProvider.goToDefault(index);
+                                          },
+                                          icon: const Icon(Icons.cancel_outlined), color: Colors.red[800])
+                                    ],
+                                  ): Container();
+                                },),
                             ],
                           ) ,
                         );
                       }),
                 ),
-                Text('Total Amount: ${PayAmount()}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF29376E)),),
-                Divider(color: Color(0x8029376F), thickness: 1,),
+               Selector<OrderDetailsProvider, int>(
+                 selector: (_, orderDetailsProvider) => orderDetailsProvider.PayAmount(),
+                 builder: (_, value, __) =>  Text('Total Amount: $value', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF29376E)),),),
+                const Divider(color: Color(0x8029376F), thickness: 1,),
                 Container(
                   height: 700,
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Payment Summary',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -207,21 +191,27 @@ class _OrderDetailsState extends State<OrderDetails> {
                             color: Color(0xFF29376F)
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                       Expanded(
-                      child: PaymentSelectDropdown(
-                          statusList: paymentList,
-                          dropDownValue: dropDownValue,
-                          onDropDownChanged: PaymentMethod,
-                            ),
+                      child: Consumer<DropdownChangeProvider>(builder: (context, dropDownChange, child) {
+                        return PaymentSelectDropdown(
+                          statusList: dropDownChange.paymentList,
+                          dropDownValue: dropDownChange.selectedMethod,
+                          onDropDownChanged: (value) {
+                            dropDownChange.ToggleChange(value);
+                            dropDownChange.SwitchWidget(text: PayAmount());
+                          },
+                        );
+                      },
+                      ),
                           ),
                          // paymentDetailsWidget,
                         ],
                       ),
-                      paymentDetailsWidget,
+                      Consumer<DropdownChangeProvider>(builder: (context, value, child) =>  value.paymentDetailsWidget,),
                     ],
                   ),
                 ),
@@ -234,7 +224,3 @@ class _OrderDetailsState extends State<OrderDetails> {
     );
   }
 }
-
-
-
-

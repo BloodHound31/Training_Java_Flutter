@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Entity/BillingAddress.dart';
@@ -7,7 +6,7 @@ import '../Service/Order_Data.dart';
 
 class OrderProvider with ChangeNotifier{
 
-  List<OrderData> _orderList = [
+  final List<OrderData> _orderList = [
   OrderData(id: 1, totalMrp: 300, totalDiscount: 50, payAmount: 100, orderStatus: 'Pending', customerName: 'Customer A', productQuantity: 5,
   billingAddress: BillingAddress(buildingName: 'Show-13 Amar Building', streetName: 'Main Carter Road', townName: 'Borivali West', cityName: 'Mumbai', stateName: 'Maharashtra', pinCode: 400092),
   productList: [ProductDetails(productName: 'Bath Soap', productQuantity: 10, productPrice: 50), ProductDetails(productName: 'Detergent', productQuantity: 20, productPrice: 30)]),
@@ -29,17 +28,26 @@ class OrderProvider with ChangeNotifier{
   productList: [ProductDetails(productName: 'Dairy Milk', productQuantity: 30, productPrice: 20), ProductDetails(productName: 'Oreo', productQuantity: 20, productPrice: 35)])
   ];
 
- // List<String> _statusList = ['All', 'Pending', 'Full Cancel', 'Delivered', 'PartialCancelled'];
+  final List<String> _statusList = ['All', 'Pending', 'Full Cancel', 'Delivered', 'PartialCancelled'];
 
   List<OrderData> _filteredList = [];
 
-  String selectedStatus = 'All';
+  String _selectedStatus = '';
 
 
 
   List<OrderData> get orderList => _orderList;
 
   List<OrderData> get filteredList => _filteredList;
+
+  String get selectedStatus => _selectedStatus;
+
+  List<String> get statusList => _statusList;
+
+  OrderProvider(){
+    _filteredList = _orderList;
+    _selectedStatus = _statusList.first;
+  }
 
 
   void SearchProduct(String enteredKeyword) {
@@ -60,12 +68,17 @@ class OrderProvider with ChangeNotifier{
   }
 
   void sortByStatus(String? status) {
-    selectedStatus = status!;
+    _selectedStatus = status!;
     if(status == 'All'){
       _filteredList = _orderList;
     }else{
       _filteredList = _orderList.where((item) => item.orderStatus == status).toList();
     }
+    notifyListeners();
+  }
+
+  void ChangeStatus(String? status){
+    _selectedStatus = status!;
     notifyListeners();
   }
 
@@ -88,18 +101,14 @@ class OrderProvider with ChangeNotifier{
     return Row(
       children: [
         CircleAvatar(
-          backgroundColor: getStatusColorChange(_orderList[index].orderStatus),
+          backgroundColor: getStatusColorChange(_filteredList[index].orderStatus),
           radius: 7,
         ),
-        SizedBox(width: 5,),
-        Text('${_filteredList[index].orderStatus}')
+        const SizedBox(width: 5,),
+        Text(_filteredList[index].orderStatus)
       ],
     );
-    notifyListeners();
   }
-
-
-
 
 
 

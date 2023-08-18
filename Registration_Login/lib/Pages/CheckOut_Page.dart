@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:resgistration_login/CustomWidegts/custom_text_field.dart';
-import 'package:http/http.dart' as http;
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
 import 'package:resgistration_login/Providers/Cart_Provider.dart';
 import 'package:resgistration_login/Service/Order_Data.dart';
@@ -21,16 +18,10 @@ class CheckOutPage extends StatefulWidget {
 
 
 
-
-
-
-
-
-
 class _CheckOutPageState extends State<CheckOutPage> {
   InputField iF = InputField();
-  TextEditingController _yourNameController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
+  final TextEditingController _yourNameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   List<String> list = ['UPI','Cash on delivery'];
@@ -83,47 +74,46 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
     double finalPrice = FinalPrice(totalPrice, discountPrice);
 
-    print('build');
     return Scaffold(
-      backgroundColor: Color(0xFF293770),
+      backgroundColor: const Color(0xFF293770),
       appBar: AppBar(
-        title: Text('CheckOut'),
-        backgroundColor: Color(0xFF293771),
+        title: const Text('CheckOut'),
+        backgroundColor: const Color(0xFF293771),
         centerTitle: true,
 
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Expanded(
               child: Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                color: Color(0xFF8C9BDA),
+                color: const Color(0xFF8C9BDA),
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: [
-                          Align(
+                          const Align(
                               alignment: Alignment.centerLeft ,
                               child: Text(
                                 'Customer Details',
                                 style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Container(
                             decoration: BoxDecoration(
-                              color: Color(0xFF293771),
+                              color: const Color(0xFF293771),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ExpansionTile(
                               initiallyExpanded: true,
-                              title: Text('Details', style: TextStyle(color: Colors.white),),
+                              title: const Text('Details', style: TextStyle(color: Colors.white),),
                               children: [
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                                   child: TextFormField(
                                     controller: _yourNameController,
                                     validator: (value){
@@ -131,9 +121,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                         return 'Your name not filled';
                                       }
                                     },
-                                    style: GoogleFonts.oswald(textStyle: TextStyle(color: Colors.black),),
+                                    style: GoogleFonts.oswald(textStyle: const TextStyle(color: Colors.black),),
                                     decoration: InputDecoration(
-                                        fillColor: Color(0xFFFFFFFFF),
+                                        fillColor: const Color(0xFFFFFFFF),
                                         filled: true,
                                         hintText: 'Your Name',
                                         border: OutlineInputBorder(
@@ -142,9 +132,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                                   child: TextFormField(
                                     controller: _addressController,
                                     validator: (value){
@@ -152,9 +142,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                         return 'Address not filled';
                                       }
                                     },
-                                    style: GoogleFonts.oswald(textStyle: TextStyle(color: Colors.black),),
+                                    style: GoogleFonts.oswald(textStyle: const TextStyle(color: Colors.black),),
                                     decoration: InputDecoration(
-                                        fillColor: Color(0xFFFFFFFFF),
+                                        fillColor: const Color(0xFFFFFFFF),
                                         filled: true,
                                         hintText: 'Address',
                                         border: OutlineInputBorder(
@@ -166,8 +156,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 15),
-                          Align(
+                          const SizedBox(height: 15),
+                          const Align(
                             alignment: Alignment.centerLeft,
                               child: Text('Payment Method',
                               style: TextStyle(
@@ -177,7 +167,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ),
                               ),
                           ),
-                          SizedBox(height: 5,),
+                          const SizedBox(height: 5,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -191,69 +181,69 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 5),
+                            margin: const EdgeInsets.symmetric(vertical: 5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFF8C9BDA),
+                              color: const Color(0xFF8C9BDA),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Bill Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), ),
-                                  SizedBox(height: 10,),
-                                  Row(
+                                  const Text('Bill Details', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), ),
+                                  const SizedBox(height: 10,),
+                                  const Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text('Title', style: TextStyle(fontWeight: FontWeight.bold),),
                                       Text('Amount', style: TextStyle(fontWeight: FontWeight.bold),),
                                     ],
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('MRP Amount:'),
+                                      const Text('MRP Amount:'),
                                       Text('$totalPrice'),
                                     ],
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Discount:'),
+                                      const Text('Discount:'),
                                       Text('$discountPrice'),
                                     ],
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Total Amount:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                                      Text('$finalPrice', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
+                                      const Text('Total Amount:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                                      Text('$finalPrice', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)
                                     ],
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 30,),
+                          const SizedBox(height: 30,),
 
                           Row(
                             children: [
                               Expanded(
                                 child: ElevatedButton(
                                   style: ButtonStyle(
-                                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 18.0, horizontal: 70)),
-                                    shadowColor: MaterialStateProperty.all<Color>(Color(0xFF6E81CE)),
+                                    padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 18.0, horizontal: 70)),
+                                    shadowColor: MaterialStateProperty.all<Color>(const Color(0xFF6E81CE)),
                                     shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(60.0)
                                     )),
-                                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xff293772)),
+                                    backgroundColor: MaterialStateProperty.all<Color>(const Color(0xff293772)),
                                   ),
                                   onPressed: (){
                                     if (_formKey.currentState!.validate()) {
@@ -263,7 +253,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                       String dropDown = selectedPaymentMethod.toString();
                                       UserData.UserDetailsPost(userName, userAddress, dropDown);
                                       ProductData.changeAvailableProducts(cart.items.values.toList());
-                                      Future.delayed(Duration(seconds: 5), (){
+                                      Future.delayed(const Duration(seconds: 5), (){
                                         OrderData.AddBill(userName, totalPrice, discountPrice, finalPrice);
                                       });
                                       cart.clearCart();
@@ -271,11 +261,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
                                     } else {
                                       // Form is invalid
-                                      print('Something went wrong');
                                     }
 
                                   },
-                                  child:Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
+                                  child:const Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
                                 ),
                               ),
                             ],

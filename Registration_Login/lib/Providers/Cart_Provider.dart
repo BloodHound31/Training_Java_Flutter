@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:resgistration_login/Service/product_data.dart';
 
 class CartItems{
@@ -21,7 +20,7 @@ class CartItems{
 
 class CartItemProvider with ChangeNotifier{
 
-  Map<String, CartItems> _items = {};
+  final Map<String, CartItems> _items = {};
 
   Map<String, CartItems> get items => _items;
 
@@ -44,7 +43,6 @@ class CartItemProvider with ChangeNotifier{
     });
 
     return totalPrice;
-    notifyListeners();
   }
 
   //Get the total price
@@ -55,7 +53,6 @@ class CartItemProvider with ChangeNotifier{
     });
 
     return totalDiscount;
-    notifyListeners();
   }
 
 

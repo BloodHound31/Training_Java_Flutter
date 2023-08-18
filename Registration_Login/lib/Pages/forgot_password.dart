@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resgistration_login/CustomWidegts/custom_text_field.dart';
 
@@ -17,16 +16,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   InputField iF = InputField();
   UserData user = UserData();
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _oldPasswordController = TextEditingController();
-  TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[700],
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -35,7 +34,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
                 SizedBox(width: 30.0),
                 Padding(
@@ -51,33 +50,33 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ],//Row Children
             ),
-            SizedBox(height: 30.0),
+            const SizedBox(height: 30.0),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFF8C9BDA),
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(70), topRight: Radius.circular(70)),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(top: 100, left: 70, right: 70),
+                  padding: const EdgeInsets.only(top: 100, left: 70, right: 70),
                   child: SingleChildScrollView(
                     child: Form(
                         key: _formKey,
                         child: Column(
                           children: [
                             iF.InputText(textField: 'EmailId', controller: _emailController),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             iF.InputText(textField: 'oldPassword', controller: _oldPasswordController, isObsurce: true),
-                            SizedBox(height: 20.0),
+                            const SizedBox(height: 20.0),
                             iF.InputText(textField: 'newPassword', controller: _newPasswordController, isObsurce: true),
-                            SizedBox(height: 25),
+                            const SizedBox(height: 25),
                             ElevatedButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 20.0, horizontal: 70)),
+                                padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 20.0, horizontal: 70)),
                                 shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(60.0)
                                 )),
-                                backgroundColor: MaterialStateProperty.all<Color>(Color(0xff293772)),
+                                backgroundColor: MaterialStateProperty.all<Color>(const Color(0xff293772)),
                               ),
                               onPressed: (){
 
@@ -94,7 +93,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 }
 
                               },
-                              child:Text('Change Password', style: TextStyle(fontSize: 16.0, color: Color(0xFFF1F2EB))),
+                              child:const Text('Change Password', style: TextStyle(fontSize: 16.0, color: Color(0xFFF1F2EB))),
                             ),
                           ],//ColumnChildren
                         ),

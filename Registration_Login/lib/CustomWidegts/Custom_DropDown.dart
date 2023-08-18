@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resgistration_login/Providers/Product_Provider.dart';
@@ -31,17 +30,17 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
       //margin: EdgeInsets.symmetric(vertical: 5),
       //padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: Color(0xFF8B9AD8),
+        color: const Color(0xFF8B9AD8),
         borderRadius: BorderRadius.circular(50),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          hint: Text('A-Z'),
+          hint: const Text('A-Z'),
           value: dropDownValue,
           icon: const Icon(Icons.arrow_drop_down_outlined, size: 18, color: Color(0xFF293771)),
           elevation: 14,
           style: const TextStyle(color: Color(0xFF293771), fontSize: 14, fontWeight: FontWeight.bold),
-          dropdownColor: Color(0xFF8B9AD8),
+          dropdownColor: const Color(0xFF8B9AD8),
           onChanged: (value) {
             dropDownValue = value!;
             productProvider.onSortOrderChanged(value);
@@ -91,20 +90,20 @@ class _DropDownButtonPageState extends State<DropDownButtonPage> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFF8B9AD8),
+        color: const Color(0xFF8B9AD8),
         borderRadius: BorderRadius.circular(50),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<int>(
           hint: Text(
             widget.listTotalProduct.isEmpty ? '1' : widget.listTotalProduct.length.toString(),
-            style: TextStyle(color: Color(0xFF293771), fontSize: 12, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Color(0xFF293771), fontSize: 12, fontWeight: FontWeight.bold),
           ),
           value: dropDownValue,
           icon: const Icon(Icons.arrow_drop_down_outlined, size: 18, color: Color(0xFF293771)),
           elevation: 14,
           style: const TextStyle(color: Color(0xFF293771), fontSize: 14, fontWeight: FontWeight.bold),
-          dropdownColor: Color(0xFF8B9AD8),
+          dropdownColor: const Color(0xFF8B9AD8),
           onChanged: (value) {
             dropDownValue = value!;
             productProvider.changePage(value);
@@ -147,21 +146,21 @@ class _PaymentDropDownState extends State<PaymentDropDown> {
   Widget build(BuildContext context) {
     //dropDownValue = widget.list.first;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: Color(0xFF293771),
+        color: const Color(0xFF293771),
         borderRadius: BorderRadius.circular(5),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          hint: Text('Select Order'),
+          hint: const Text('Select Order'),
           value: widget.dropDownValue,
           // isExpanded: true,
           icon: const Icon(Icons.arrow_drop_down, color: Colors.white,size: 30,),
           elevation: 14,
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          dropdownColor: Color(0xFF293771),
+          dropdownColor: const Color(0xFF293771),
           onChanged: (value) {
             setState(() {
               widget.onSaved(value);
@@ -208,25 +207,23 @@ class _StatusDropDownState extends State<StatusDropDown> {
   Widget build(BuildContext context) {
     //dropDownValue = widget.list.first;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: Color(0xFF293771),
+        color: const Color(0xFF293771),
         borderRadius: BorderRadius.circular(5),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          hint: Text('Select'),
+          hint: const Text('Select'),
           value: widget.dropDownValue,
           // isExpanded: true,
           icon: const Icon(Icons.arrow_drop_down, color: Colors.white,size: 30,),
           elevation: 14,
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          dropdownColor: Color(0xFF293771),
+          dropdownColor: const Color(0xFF293771),
           onChanged: (value) {
-            setState(() {
               widget.onDropDownChanged(value);
-            });
           },
           items: widget.statusList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
@@ -264,21 +261,21 @@ class _PaymentSelectDropdownState extends State<PaymentSelectDropdown> {
   Widget build(BuildContext context) {
     //dropDownValue = widget.list.first;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: Color(0xFF293771),
+        color: const Color(0xFF293771),
         borderRadius: BorderRadius.circular(5),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          hint: Text('Select'),
+          hint: const Text('Select'),
           value: widget.dropDownValue,
           // isExpanded: true,
           icon: const Icon(Icons.arrow_drop_down, color: Colors.white,size: 30,),
           elevation: 14,
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          dropdownColor: Color(0xFF293771),
+          dropdownColor: const Color(0xFF293771),
           onChanged: (value) {
             setState(() {
               widget.onDropDownChanged(value);

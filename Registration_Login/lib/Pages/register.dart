@@ -16,10 +16,10 @@ class _RegistrationState extends State<Registration> {
 
   UserData user = UserData();
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _userNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _detailsController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _detailsController = TextEditingController();
 
 
   @override
@@ -27,17 +27,17 @@ class _RegistrationState extends State<Registration> {
     return Scaffold(
       backgroundColor: Colors.grey[700],
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [Color(0xff293772), Color(0xFF354899), Color(0xFF415ABF)],
           ),
         ),
-        padding: EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(top: 50),
         child: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -54,11 +54,11 @@ class _RegistrationState extends State<Registration> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: Container(
 
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFF8C9BDA),
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(70), topRight: Radius.circular(70)),
                 ),
@@ -71,20 +71,20 @@ class _RegistrationState extends State<Registration> {
                       child: Column(
                         children: [
                           iF.InputText(textField: 'username', controller: _userNameController),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           iF.InputText(textField: 'EmailId', controller: _emailController),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           iF.InputText(textField: 'Password', controller: _passwordController, isObsurce: true),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           iF.InputText(textField: 'details', controller: _detailsController),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           ElevatedButton(
                             style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 20.0, horizontal: 70)),
+                              padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.symmetric(vertical: 20.0, horizontal: 70)),
                               shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(60.0)
                               )),
-                              backgroundColor: MaterialStateProperty.all<Color>(Color(0xff293772)),
+                              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xff293772)),
                             ),
                             onPressed: (){
                               if (_formKey.currentState!.validate()) {
@@ -100,7 +100,7 @@ class _RegistrationState extends State<Registration> {
                               }
 
                             },
-                            child:Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
+                            child:const Text('Submit', style: TextStyle(fontSize: 20.0, color: Color(0xFFF1F2EB)),),
                           )
                         ],
                       ),

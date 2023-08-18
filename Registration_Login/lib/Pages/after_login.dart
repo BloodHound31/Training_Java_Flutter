@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AfterLogin extends StatefulWidget {
@@ -14,8 +13,8 @@ class _AfterLoginState extends State<AfterLogin> {
     return SafeArea(child: Scaffold(
       backgroundColor: Colors.black,
       body: Container(
-        margin: EdgeInsets.only(top: 20, left: 20),
-        child: Text(
+        margin: const EdgeInsets.only(top: 20, left: 20),
+        child: const Text(
           "This is after login page",
           style: TextStyle(
             fontSize: 30.0,

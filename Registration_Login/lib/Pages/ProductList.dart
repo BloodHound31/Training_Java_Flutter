@@ -4,7 +4,6 @@ import 'package:resgistration_login/Providers/Product_Provider.dart';
 
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
 
-import '../Providers/Cart_Provider.dart';
 import 'package:resgistration_login/CustomWidegts/ProductListView.dart';
 
 class ProductList extends StatefulWidget {
@@ -22,17 +21,17 @@ class _ProductListState extends State<ProductList> {
 
     final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
-    var list = new List<int>.generate(productProvider.productList.length, (i) => i + 1);
+    var list = List<int>.generate(productProvider.productList.length, (i) => i + 1);
 
 
     return Scaffold(
-      backgroundColor: Color(0xFF293770),
+      backgroundColor: const Color(0xFF293770),
       //Drawer
       drawer: Drawer(
-        backgroundColor: Color(0xFFFFFFFF),
+        backgroundColor: const Color(0xFFFFFFFF),
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(
+            const UserAccountsDrawerHeader(
                 accountName: Text('accountName'),
                 accountEmail: Text('accountEmail')),
             ListTile(
@@ -57,8 +56,8 @@ class _ProductListState extends State<ProductList> {
       ),
       //AppBar
       appBar: AppBar(
-        title: Text('My Store'),
-        backgroundColor: Color(0xFF29376F),
+        title: const Text('My Store'),
+        backgroundColor: const Color(0xFF29376F),
         centerTitle: true,
       ),
       // backgroundColor: Colors.grey[900],
@@ -80,26 +79,26 @@ class _ProductListState extends State<ProductList> {
                         onChanged: (value) =>
                             productProvider.SearchProduct(value),
                         decoration: InputDecoration(
-                            fillColor: Color(0xFFF1F2EB),
+                            fillColor: const Color(0xFFF1F2EB),
                             filled: true,
                             labelText: 'Search',
-                            prefixIcon: Icon(Icons.search),
+                            prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                             )),
                       );
                     }),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 1,
                     child: DropdownButtonExample(
                       productList: <String>['A-Z', 'Z-A'],
                     ),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Expanded(
                     flex: 1,
                     child: DropDownButtonPage(
@@ -109,7 +108,7 @@ class _ProductListState extends State<ProductList> {
                 ],
               ),
             ),
-            Expanded(
+            const Expanded(
               flex: 5,
               child: ProductListView()
             ),

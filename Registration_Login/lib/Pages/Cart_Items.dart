@@ -17,11 +17,11 @@ class _CartItemsPageState extends State<CartItemsPage> {
     //final product = cart.product;
 
     return Scaffold(
-      backgroundColor: Color(0xFF293770),
+      backgroundColor: const Color(0xFF293770),
       appBar: AppBar(
-        title: Text('Your Cart'),
+        title: const Text('Your Cart'),
         centerTitle: true,
-        backgroundColor: Color(0xFF293771),
+        backgroundColor: const Color(0xFF293771),
       ),
       body: Column(
         children: [
@@ -38,13 +38,13 @@ class _CartItemsPageState extends State<CartItemsPage> {
                   return Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
-                    color: Color(0xFF8C9BDA),
+                    color: const Color(0xFF8C9BDA),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: ListTile(
                         title: Text(
                           cart.items.values.toList()[index].productName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -54,10 +54,10 @@ class _CartItemsPageState extends State<CartItemsPage> {
                             Text(
                               'Price ${cart.items.values.toList()[index].productPrice}',
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                                 'discount: ${cart.items.values.toList()[index].discountPercent}%'),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                                 'Quantity: ${cart.items.values.toList()[index].productQuantity}'),
                             Row(
@@ -65,7 +65,7 @@ class _CartItemsPageState extends State<CartItemsPage> {
                               children: [
                                 CircleAvatar(
                                   radius: 18,
-                                  backgroundColor: Color(0xFF293771),
+                                  backgroundColor: const Color(0xFF293771),
                                   child: IconButton(
                                       onPressed: () {
                                         cart.addItems(
@@ -74,16 +74,17 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                                 .product);
                                         product.DecreaseStocks();
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.add,
                                         size: 18,
                                       )),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 CircleAvatar(
                                   radius: 18,
+                                  backgroundColor: const Color(0xFF293771),
                                   child: IconButton(
                                       onPressed: () {
                                         cart.subtractItems(
@@ -92,11 +93,10 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                                 .product);
                                         product.IncreaseStocks();
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.remove,
                                         size: 18,
                                       )),
-                                  backgroundColor: Color(0xFF293771),
                                 ),
                               ],
                             ),
@@ -113,33 +113,33 @@ class _CartItemsPageState extends State<CartItemsPage> {
             children: [
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    color: Color(0xFF8B9AD8),
+                    color: const Color(0xFF8B9AD8),
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Column(
                         children: [
                           Container(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Total Amount: ${cart.TotalPrice}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                 ),
                               )),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
                             width: 1000,
                             height: 80,
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: ElevatedButton.icon(
                               onPressed: () {
                                 // cart.items.clear();
@@ -151,11 +151,10 @@ class _CartItemsPageState extends State<CartItemsPage> {
                                       });
                                 } else {
                                   //Throw a toast
-                                  print('error: no item found');
                                 }
                               },
-                              icon: Icon(Icons.check_outlined),
-                              label: Text(
+                              icon: const Icon(Icons.check_outlined),
+                              label: const Text(
                                 'Proceed To Check Out',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
@@ -163,9 +162,9 @@ class _CartItemsPageState extends State<CartItemsPage> {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Color(0xFF293771)),
+                                        const Color(0xFF293771)),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.all(10)),
+                                    const EdgeInsets.all(10)),
                               ),
                             ),
                           ),

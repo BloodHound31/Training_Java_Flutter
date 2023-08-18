@@ -18,16 +18,16 @@ class _CashChequePartialState extends State<CashChequePartial> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Cash Details'),
+        const Text('Cash Details'),
         Row(
           children: [
             Expanded(
               child: TextField(
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(15),
-                    label: Text('Amount in cash'),
-                    fillColor: Color(0xFFFFFFFF),
+                    contentPadding: const EdgeInsets.all(15),
+                    label: const Text('Amount in cash'),
+                    fillColor: const Color(0xFFFFFFFF),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -37,9 +37,9 @@ class _CashChequePartialState extends State<CashChequePartial> {
             ),
           ],
         ),
-        SizedBox(height: 5,),
-        Text('Cheque Details'),
-        BankWidget(),
+        const SizedBox(height: 5,),
+        const Text('Cheque Details'),
+        const BankWidget(),
       ],
     );
   }

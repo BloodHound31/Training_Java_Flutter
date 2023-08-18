@@ -8,9 +8,12 @@ class ProductProvider with ChangeNotifier{
   List<ProductData> _productList = [];
   List<ProductData> _productFound = [];
   int _productsToShow = 12;
+  // late int _availableStocks;
+  List<ProductData> _productsOnPage = [];
 
   List<ProductData> get productList => _productList;
   List<ProductData> get productFound => _productFound;
+  List<ProductData> get productsOnPage => _productsOnPage;
   int get productsToShow => _productsToShow;
 
 
@@ -61,6 +64,31 @@ class ProductProvider with ChangeNotifier{
   void changePage(int? enteredNumber) {
     _productsToShow = enteredNumber!;
     notifyListeners();
+  }
+
+
+  void increaseStocks(int index){
+    if(_productFound[index].availableStock < _productFound[index].initialStocks) {
+      _productFound[index].availableStock += 1;
+    }
+    notifyListeners();
+  }
+
+  void decreaseStocks(int index){
+    if(_productFound[index].availableStock > 0){
+      _productFound[index].availableStock -= 1;
+    }
+    notifyListeners();
+  }
+
+  void pageSorting(int index){
+    final int startIndex = index * _productsToShow;
+    final int endIndex =
+    (startIndex + _productsToShow < productFound.length)
+        ? startIndex + _productsToShow
+        : _productFound.length;
+
+    _productsOnPage =  productFound.sublist(startIndex, endIndex);
   }
 
 

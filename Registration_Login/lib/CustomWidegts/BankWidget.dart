@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:resgistration_login/CustomWidegts/Custom_DropDown.dart';
+
+import '../Providers/BankProvider.dart';
 
 class BankWidget extends StatefulWidget {
   const BankWidget({super.key});
@@ -18,7 +21,8 @@ class _BankWidgetState extends State<BankWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('Bank widget is being build');
+    final banksProvider = Provider.of<BankProvider>(context, listen: false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,15 +31,13 @@ class _BankWidgetState extends State<BankWidget> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 5),
-                child: StatusDropDown(
-                  statusList: bankList,
-                  onDropDownChanged: (String? value){
-                    setState(() {
-                      dropDownValue = value!;
-                    });
-                  },
-                  dropDownValue: dropDownValue,
-                ),
+                child: Consumer<BankProvider>(builder: (context, bankProvider, child) {
+                  return StatusDropDown(
+                    statusList: bankProvider.bankList,
+                    onDropDownChanged: (value) => bankProvider.onToggleChange(value),
+                    dropDownValue: bankProvider.selectedBank,
+                  );
+                }),
               ),
             ),
           ],
@@ -47,9 +49,9 @@ class _BankWidgetState extends State<BankWidget> {
                 padding: const EdgeInsets.only(top: 5),
                 child: TextField(
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                      label: Text('Cheque Number'),
-                      fillColor: Color(0xFFFFFFFF),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                      label: const Text('Cheque Number'),
+                      fillColor: const Color(0xFFFFFFFF),
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -60,26 +62,19 @@ class _BankWidgetState extends State<BankWidget> {
             ),
           ],
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Row(
           children: [
             Expanded(
               flex: 1,
               child: ElevatedButton(
-                onPressed: () async {
-                  final DateTime? dateTime = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100),
-                  );
-                  if(dateTime != null){
-                    selectedDate = dateTime;
-                    setState(() {
-                    });
-                  }
+                onPressed: (){
+                  banksProvider.changeDate(context: context);
                 },
-                child: Text(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF293770))
+                ),
+                child: const Text(
                   'Pick Date',
                   style: TextStyle(
                     fontSize: 16,
@@ -87,28 +82,27 @@ class _BankWidgetState extends State<BankWidget> {
                     color: Colors.white,
                   ),
                 ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF293770))
-                ),
               ),
             ),
             Expanded(
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Text(
-                  '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Color(0xFF293770),
-                  ),
-                ),
+                child: Consumer<BankProvider>(builder: (context, bankProvider, child) {
+                  return Text(
+                    '${bankProvider.selectedDate.day}-${bankProvider.selectedDate.month}-${bankProvider.selectedDate.year}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xFF293770),
+                    ),
+                  );
+                }),
               ),
             )
           ],
         ),
-        SizedBox(height: 5,),
+        const SizedBox(height: 5,),
         Row(
           children: [
             Expanded(
@@ -116,9 +110,9 @@ class _BankWidgetState extends State<BankWidget> {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: TextField(
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                      label: Text('Name'),
-                      fillColor: Color(0xFFFFFFFF),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      label: const Text('Name'),
+                      fillColor: const Color(0xFFFFFFFF),
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -134,16 +128,16 @@ class _BankWidgetState extends State<BankWidget> {
             Expanded(
               child: ElevatedButton(
                 onPressed: (){},
-                child: Text(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF293770))
+                ),
+                child: const Text(
                   'Submit',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF293770))
                 ),
               ),
             ),
