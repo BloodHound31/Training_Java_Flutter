@@ -89,8 +89,9 @@ class ProductProvider with ChangeNotifier{
         : _productFound.length;
 
     _productsOnPage =  productFound.sublist(startIndex, endIndex);
-  }
 
+
+  }
 
 
 }

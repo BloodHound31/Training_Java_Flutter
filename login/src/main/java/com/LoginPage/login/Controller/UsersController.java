@@ -3,6 +3,7 @@ package com.LoginPage.login.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,18 +31,18 @@ public class UsersController {
 		return userService.getUsers();
 	}
 	
-	@PostMapping("Register/")
-	public String RegisterUser(@RequestBody UsersDto usersDto) {
+	@PostMapping("Register")
+	public ResponseEntity<String> RegisterUser(@RequestBody UsersDto usersDto) {
 		return userService.addUser(usersDto);
 	}
 	
 	@PostMapping("Login")
-	public String LoginUser(@RequestBody LoginDto loginDto) {
+	public ResponseEntity<String> LoginUser(@RequestBody LoginDto loginDto) {
 		return userService.loginUser(loginDto);
 	}
 	
-	@PostMapping("ChangePassword/")
-	public String ChangePassword(@RequestParam(name="email") String emailId, @RequestParam(name="old") String oldPassword, @RequestParam(name="new") String newPassword) {
+	@PostMapping("ChangePassword")
+	public ResponseEntity<String> ChangePassword(@RequestParam(name="email") String emailId, @RequestParam(name="old") String oldPassword, @RequestParam(name="new") String newPassword) {
 		
 		return userService.changePassword(emailId, oldPassword, newPassword);
 		

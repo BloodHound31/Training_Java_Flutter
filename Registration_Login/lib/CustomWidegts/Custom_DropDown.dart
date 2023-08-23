@@ -27,8 +27,6 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
     final productProvider = Provider.of<ProductProvider>(context);
 
     return Container(
-      //margin: EdgeInsets.symmetric(vertical: 5),
-      //padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         color: const Color(0xFF8B9AD8),
         borderRadius: BorderRadius.circular(50),

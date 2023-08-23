@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resgistration_login/Providers/Cart_Provider.dart';
 import 'package:resgistration_login/Providers/Product_Provider.dart';
-import 'package:resgistration_login/Service/product_data.dart';
 
 
 
@@ -24,6 +23,7 @@ class _ProductListViewState extends State<ProductListView> {
 
     PageController pageController = PageController(initialPage: 0);
 
+    print('This is being build');
 
     return Column(
       children: [
@@ -60,7 +60,10 @@ class _ProductListViewState extends State<ProductListView> {
                                 Text('Final Price: ${productProvider.productsOnPage[index].finalPrice.toString()}'),
                                 Text('Seller: ${productProvider.productsOnPage[index].sellerName}'),
                                 Text('Category: ${productProvider.productsOnPage[index].productCategories}'),
-                                Text('Available Stocks: ${productProvider.productsOnPage[index].availableStock}'),
+                                Selector<ProductProvider, int>(
+                                  selector: (_, productProvider) => productProvider.productFound[index].availableStock,
+                                  builder: (_, availableStock, __) => Text('Available Stocks: $availableStock'),
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -126,69 +129,6 @@ class _ProductListViewState extends State<ProductListView> {
                 ),
               );
             },
-          ),
-        ),
-        Visibility(
-          visible: (productProvider.productList.length > productProvider.productsToShow),
-          //Next and previus button
-          child: Container(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                 ElevatedButton(
-                    onPressed: () {
-                      if (pageController.page! > 0) {
-                        pageController.previousPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    style: ButtonStyle(
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          )),
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(const Color(0xFF8B9AD8)),
-                    ),
-                    child: const Text(
-                      'Previous',
-                      style: TextStyle(color: Color(0xFF29376F)),
-                    ),
-                  ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (pageController.page! <
-                        (productProvider.productList.length / productProvider.productsToShow).ceil() - 1) {
-                      pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  style: ButtonStyle(
-                    shape:
-                    MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        )),
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(const Color(0xFF8B9AD8)),
-                  ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(color: Color(0xFF29376F)),
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                )
-              ],
-            ),
           ),
         ),
       ],
