@@ -72,10 +72,6 @@ class _ProductListViewState extends State<ProductListView> {
                                       backgroundColor: const Color(0xFF293771),
                                       child: IconButton(
                                           onPressed: () {
-                                            // cart.addItems(
-                                            //     product: productProvider.productsOnPage[index],
-                                            //     productPrice: productProvider.productsOnPage[index].productPrice,
-                                            //     discountPercent: productProvider.productsOnPage[index].sellerDiscount);
                                             productProvider.decreaseStocks(index);
                                           },
 

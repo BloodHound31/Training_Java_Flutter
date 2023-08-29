@@ -28,7 +28,15 @@ public class UsersController {
 	
 	@GetMapping("Users")
 	public List<Users> getUsers(){
-		return userService.getUsers();
+		try {
+            Thread.sleep(5000); // Delay for 5 seconds
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore the interrupted status
+            // Handle the interruption or log the error here
+        }
+		//Thread.sleep(5000);
+		List<Users> users = userService.getUsers();
+		return users;
 	}
 	
 	@PostMapping("Register")
@@ -38,7 +46,17 @@ public class UsersController {
 	
 	@PostMapping("Login")
 	public ResponseEntity<String> LoginUser(@RequestBody LoginDto loginDto) {
-		return userService.loginUser(loginDto);
+		
+		try {
+            Thread.sleep(5000); // Delay for 5 seconds
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore the interrupted status
+            // Handle the interruption or log the error here
+        }
+		
+		ResponseEntity<String> apiResponse = userService.loginUser(loginDto);
+		
+		return apiResponse;
 	}
 	
 	@PostMapping("ChangePassword")

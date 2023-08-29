@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.LoginPage.login.Dto.StocksDto;
@@ -39,30 +41,36 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> changeAvailableStocks(List<StocksDto> stocksDtoList) {
-		
-		List<Product> updatedProducts = new ArrayList<>();
-		
-		for(StocksDto stocksDto: stocksDtoList) {
-			Product currentProduct = productRepo.findByProductName(stocksDto.getProductName());
-			if(currentProduct != null){
-				ProductDetails currentProductDetails = currentProduct.getProductDetails();
-				if(currentProductDetails != null) {
-					currentProductDetails.setAvailableStock(stocksDto.getAvailableStocks());
-					productDetailsRepo.save(currentProductDetails);
-					updatedProducts.add(currentProduct);
-				}
-				
-			}
-		}
-		
-		return updatedProducts;
-	}
+	 public ResponseEntity<String> changeAvailableStocks(List<StocksDto> stocksDtoList) {
 
-	
-	
-	
-	
-	
+        List<Product> updatedProducts = new ArrayList<>();
 
+        for (StocksDto stocksDto : stocksDtoList) {
+            Product currentProduct = productRepo.findByProductName(stocksDto.getProductName());
+            if (currentProduct != null) {
+                ProductDetails currentProductDetails = currentProduct.getProductDetails();
+                if (currentProductDetails != null) {
+                    currentProductDetails.setAvailableStock(stocksDto.getAvailableStocks());
+                    productDetailsRepo.save(currentProductDetails);
+                    updatedProducts.add(currentProduct);
+                }
+            }
+        }
+
+        if (!updatedProducts.isEmpty()) {
+            return new ResponseEntity<>("Stocks updated successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No products updated", HttpStatus.NOT_FOUND);
+        }
+    }
+	
+	
 }
+
+	
+	
+	
+	
+	
+
+

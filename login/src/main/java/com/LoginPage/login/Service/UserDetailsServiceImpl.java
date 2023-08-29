@@ -60,9 +60,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 			
 			bill.setUserDetails(currenUserDetails);
 			billRepository.save(bill);
-			int id = bill.getId();
-			System.out.println(id);
-			
 			return currenUserDetails;
 		}
 		else 

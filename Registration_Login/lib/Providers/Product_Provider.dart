@@ -26,7 +26,7 @@ class ProductProvider with ChangeNotifier{
     await ProductData.fetchProducts();
     _productList = ProductData.products;
     _productFound = productList;
-    notifyListeners();
+    //notifyListeners();
   }
 
   void onSortOrderChanged(String? value) {

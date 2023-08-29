@@ -252,7 +252,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                       String userAddress = _addressController.text;
                                       String dropDown = selectedPaymentMethod.toString();
                                       UserData.UserDetailsPost(userName, userAddress, dropDown);
-                                      ProductData.changeAvailableProducts(cart.items.values.toList());
+                                      //ProductData.changeAvailableProducts(cart.items.values.toList());
                                       Future.delayed(const Duration(seconds: 5), (){
                                         OrderData.AddBill(userName, totalPrice, discountPrice, finalPrice);
                                       });
